@@ -37,6 +37,11 @@
             overflow: hidden;
         }
 
+        /* Netlify rozetini gizler */
+        body > a[href*="netlify.com"] {
+            display: none !important;
+        }
+
         button { font-family: inherit; }
 
         .app-container {
@@ -249,13 +254,13 @@
         <div class="content-card">
             <h3>📢 Join TONARIS Channel</h3>
             <p class="task-description">Reward: +10,000 TNR</p>
-            <button class="btn-action task-button" data-task="join_channel" data-reward="10000">Claim</button>
+            <button class="btn-action task-button" data-task="join_channel" data-reward="10000" data-link="https://t.me/boost/tonaris_channel">Claim</button>
         </div>
 
         <div class="content-card">
             <h3>🐦 Follow TONARIS on X</h3>
             <p class="task-description">Reward: +10,000 TNR</p>
-            <button class="btn-action task-button" data-task="follow_x" data-reward="10000">Claim</button>
+            <button class="btn-action task-button" data-task="follow_x" data-reward="10000" data-link="https://x.com/TONARIS_io">Claim</button>
         </div>
 
         <div class="content-card">
@@ -269,9 +274,7 @@
     <section id="leaderboard-section" class="section">
         <h2>🏆 Global Leaderboard</h2>
         <p style="color:var(--text-muted);font-size:13px;">Top TONARIS miners.</p>
-        <div class="content-card" id="leaderboard">
-            <!-- Dinamik doldurulacak -->
-        </div>
+        <div class="content-card" id="leaderboard"></div>
     </section>
 
     <!-- WALLET -->
@@ -294,7 +297,6 @@
 </div>
 
 <script>
-// --- STATE & TELEGRAM INIT ---
 const tg = window.Telegram?.WebApp;
 let state = {
     balance: parseInt(localStorage.getItem('tnr_balance')) || 45120,
@@ -327,7 +329,6 @@ function updateUI() {
 }
 updateUI();
 
-// Energy recovery timer (1 energy per second)
 setInterval(() => {
     if (state.energy < state.maxEnergy) {
         state.energy = Math.min(state.maxEnergy, state.energy + 5);
@@ -336,17 +337,14 @@ setInterval(() => {
     }
 }, 3000);
 
-// --- TAP MECHANIC ---
 document.getElementById("tap-button").addEventListener("click", () => {
     if (state.energy <= 0) return;
-    
     state.balance += 1;
     state.energy -= 1;
     updateUI();
     saveState();
 });
 
-// --- TASKS LOGIC ---
 document.querySelectorAll(".task-button").forEach(button => {
     const taskId = button.dataset.task;
     if (state.completedTasks.includes(taskId)) {
@@ -355,6 +353,15 @@ document.querySelectorAll(".task-button").forEach(button => {
     }
 
     button.addEventListener("click", () => {
+        const link = button.dataset.link;
+        if (link) {
+            if (tg?.openTelegramLink && link.includes("t.me")) {
+                tg.openTelegramLink(link);
+            } else {
+                window.open(link, "_blank");
+            }
+        }
+
         if (state.completedTasks.includes(taskId)) return;
 
         const reward = parseInt(button.dataset.reward) || 10000;
@@ -370,7 +377,6 @@ document.querySelectorAll(".task-button").forEach(button => {
     });
 });
 
-// --- LEADERBOARD ---
 function loadLeaderboard() {
     const container = document.getElementById("leaderboard");
     const mockLeaders = [
@@ -390,7 +396,6 @@ function loadLeaderboard() {
     });
 }
 
-// --- TAB SYSTEM ---
 document.querySelectorAll(".nav-item").forEach(button => {
     button.addEventListener("click", () => {
         const tab = button.dataset.tab;
@@ -406,7 +411,6 @@ document.querySelectorAll(".nav-item").forEach(button => {
     });
 });
 
-// --- TON CONNECT ---
 window.addEventListener('DOMContentLoaded', () => {
     try {
         if (window.TON_CONNECT_UI) {
@@ -428,7 +432,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- HTML ESCAPE ---
 function escapeHtml(value) {
     return String(value)
         .replaceAll("&", "&amp;")
@@ -441,13 +444,3 @@ function escapeHtml(value) {
 
 </body>
 </html>
-<style>
-  body > a[href*="netlify.com"] {
-    display: none !important;
-  }
-</style><style>
-  body > a[href*="netlify.com"] {
-    display: none !important;
-  }
-</style>
-
