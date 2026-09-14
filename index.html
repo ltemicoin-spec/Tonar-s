@@ -179,7 +179,7 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            padding: 12px 0;
+            padding: 10px 0;
             border-bottom: 1px solid var(--border-color);
             font-size: 13px;
         }
@@ -273,7 +273,7 @@
     <!-- LEADERBOARD -->
     <section id="leaderboard-section" class="section">
         <h2>🏆 Global Leaderboard</h2>
-        <p style="color:var(--text-muted);font-size:13px;">Top TONARIS miners.</p>
+        <p style="color:var(--text-muted);font-size:13px;">Top 20 TONARIS miners worldwide.</p>
         <div class="content-card" id="leaderboard"></div>
     </section>
 
@@ -379,19 +379,42 @@ document.querySelectorAll(".task-button").forEach(button => {
 
 function loadLeaderboard() {
     const container = document.getElementById("leaderboard");
-    const mockLeaders = [
-        { name: document.getElementById("user-tag").innerText, balance: state.balance },
-        { name: "@Satoshi_N", balance: 1250000 },
-        { name: "@Pavel_Durov", balance: 980000 },
-        { name: "@CryptoKing", balance: 650000 },
-        { name: "@TonMiner", balance: 320000 }
+    const currentUsername = document.getElementById("user-tag").innerText;
+    
+    // 20 kişilik global oyuncu listesi oluşturuluyor
+    let mockLeaders = [
+        { name: "@Satoshi_N", balance: 4250000 },
+        { name: "@Pavel_Durov", balance: 3980000 },
+        { name: "@CryptoKing", balance: 3650000 },
+        { name: "@TonWhale", balance: 3200000 },
+        { name: "@MoonShot", balance: 2950000 },
+        { name: "@DiamondHands", balance: 2700000 },
+        { name: "@TelegramGod", balance: 2450000 },
+        { name: "@AlphaHunter", balance: 2100000 },
+        { name: "@BlockMaster", balance: 1850000 },
+        { name: "@TokenSniper", balance: 1600000 },
+        { name: "@Web3Ninja", balance: 1400000 },
+        { name: "@SolanaKiller", balance: 1200000 },
+        { name: "@NotCoinFan", balance: 950000 },
+        { name: "@HamsterBoss", balance: 800000 },
+        { name: "@BlumMaster", balance: 650000 },
+        { name: "@DOGE_Father", balance: 500000 },
+        { name: "@EtherKnight", balance: 380000 },
+        { name: "@NodeRunner", balance: 250000 },
+        { name: "@CryptoNoob", balance: 150000 },
+        { name: currentUsername, balance: state.balance }
     ].sort((a, b) => b.balance - a.balance);
 
     container.innerHTML = "";
-    mockLeaders.forEach((user, index) => {
+    mockLeaders.slice(0, 20).forEach((user, index) => {
         const row = document.createElement("div");
         row.className = "leaderboard-row";
-        row.innerHTML = `<span>${index + 1}. ${escapeHtml(user.name)}</span><b>${Number(user.balance).toLocaleString()} TNR</b>`;
+        if (user.name === currentUsername) {
+            row.style.background = "rgba(0,240,255,0.08)";
+            row.style.borderRadius = "8px";
+            row.style.padding = "6px 8px";
+        }
+        row.innerHTML = `<span><b>${index + 1}.</b> ${escapeHtml(user.name)}</span><b>${Number(user.balance).toLocaleString()} TNR</b>`;
         container.appendChild(row);
     });
 }
