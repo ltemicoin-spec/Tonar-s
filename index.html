@@ -14,12 +14,12 @@
     <style>
         :root {
             --bg-deep: #07090e;
-            --bg-card: #121824;
+            --bg-card: rgba(18, 24, 36, 0.85);
             --accent-neon: #00f0ff;
             --accent-glow: rgba(0,240,255,.4);
             --text-main: #fff;
             --text-muted: #8b9bb4;
-            --border-color: #1e293b;
+            --border-color: rgba(255, 255, 255, 0.1);
             --green: #10b981;
         }
 
@@ -30,11 +30,25 @@
 
         body {
             margin: 0;
-            background: var(--bg-deep);
+            background-color: var(--bg-deep);
+            /* Gönderdiğin resim arka plana eklendi */
+            background-image: url('1000312603.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             min-height: 100vh;
             overflow: hidden;
+        }
+
+        /* Arka planın üstüne hafif karartma perdesi (yazılar rahat okunsun diye) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(7, 9, 14, 0.82);
+            z-index: -1;
         }
 
         /* Netlify rozetini gizler */
@@ -57,6 +71,7 @@
             justify-content: space-between;
             align-items: center;
             background: var(--bg-card);
+            backdrop-filter: blur(10px);
             padding: 12px 15px;
             border-radius: 14px;
             border: 1px solid var(--border-color);
@@ -102,10 +117,10 @@
         @keyframes rotateRing { to { transform: rotate(360deg); } }
 
         .tap-card {
-            width: 180px;
-            height: 180px;
+            width: 190px;
+            height: 190px;
             border-radius: 50%;
-            background: radial-gradient(circle, #0ea5e9 0%, #0369a1 50%, #07090e 100%);
+            background: #07090e;
             border: 4px solid var(--accent-neon);
             box-shadow: 0 0 40px var(--accent-glow);
             display: flex;
@@ -116,10 +131,19 @@
             transition: transform .08s ease;
             position: relative;
             z-index: 2;
+            overflow: hidden;
         }
 
         .tap-card:active { transform: scale(.92); }
-        .tap-icon { font-size: 70px; }
+        
+        /* Tıklama butonunun içine logo resmi oturtuldu */
+        .tap-logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            pointer-events: none;
+        }
 
         .stats-row {
             display: flex;
@@ -153,6 +177,7 @@
 
         .content-card {
             background: var(--bg-card);
+            backdrop-filter: blur(10px);
             border-radius: 14px;
             padding: 16px;
             margin-bottom: 12px;
@@ -193,7 +218,8 @@
             display: flex;
             justify-content: space-around;
             padding: 9px 0;
-            background: var(--bg-card);
+            background: rgba(18, 24, 36, 0.95);
+            backdrop-filter: blur(10px);
             border-top: 1px solid var(--border-color);
             z-index: 100;
         }
@@ -222,7 +248,7 @@
                 <div class="user-name" id="user-tag">Player</div>
                 <div class="user-league">💎 Bronze League</div>
             </div>
-            <div class="profit-badge">🚀 +500/h</div>
+            <div class="profit-badge">💎 +500/h</div>
         </div>
 
         <div class="score-box">
@@ -233,7 +259,7 @@
         <div class="tap-wrapper">
             <div class="tap-ring"></div>
             <div class="tap-card" id="tap-button">
-                <div class="tap-icon">🚀</div>
+                <img src="1000312603.png" alt="TONARIS" class="tap-logo-img">
             </div>
         </div>
 
@@ -290,7 +316,7 @@
 
 <!-- NAVIGATION -->
 <div class="nav-bar">
-    <button class="nav-item active" data-tab="home"><span class="nav-icon">🚀</span>Exchange</button>
+    <button class="nav-item active" data-tab="home"><span class="nav-icon">💎</span>Exchange</button>
     <button class="nav-item" data-tab="earn"><span class="nav-icon">📋</span>Earn</button>
     <button class="nav-item" data-tab="leaderboard"><span class="nav-icon">🏆</span>Rank</button>
     <button class="nav-item" data-tab="wallet"><span class="nav-icon">👛</span>Wallet</button>
@@ -339,6 +365,12 @@ setInterval(() => {
 
 document.getElementById("tap-button").addEventListener("click", () => {
     if (state.energy <= 0) return;
+    
+    // Telegram Titreşim Efekti (Haptic Feedback)
+    if (tg && tg.HapticFeedback) {
+        tg.HapticFeedback.impactOccurred('medium');
+    }
+
     state.balance += 1;
     state.energy -= 1;
     updateUI();
@@ -381,7 +413,6 @@ function loadLeaderboard() {
     const container = document.getElementById("leaderboard");
     const currentUsername = document.getElementById("user-tag").innerText;
     
-    // Kullanıcıyı her zaman 1 numaraya sabitlemek için kendi puanından düşük bot listesi
     let botLeaders = [
         { name: "@CryptoKing", balance: Math.max(1000, state.balance - 15000) },
         { name: "@Pavel_Durov", balance: Math.max(900, state.balance - 32000) },
@@ -404,7 +435,6 @@ function loadLeaderboard() {
         { name: "@CryptoNoob", balance: Math.max(20, state.balance - 600000) }
     ].sort((a, b) => b.balance - a.balance);
 
-    // Kullanıcıyı en başa (1. sıraya) koyuyoruz
     let fullList = [{ name: currentUsername, balance: state.balance }, ...botLeaders];
 
     container.innerHTML = "";
@@ -465,7 +495,7 @@ function escapeHtml(value) {
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
-}
+    }
 </script>
 
 </body>
