@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TONARIS — $TNR</title>
- 
+
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
@@ -92,6 +92,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+            z-index: 10;
         }
 
         .tap-ring {
@@ -102,6 +104,7 @@
             border: 2px dashed var(--accent-neon);
             opacity: .5;
             animation: rotateRing 15s linear infinite;
+            pointer-events: none;
         }
 
         @keyframes rotateRing { to { transform: rotate(360deg); } }
@@ -117,14 +120,13 @@
             align-items: center;
             justify-content: center;
             user-select: none;
-            cursor: pointer;
             transition: transform .08s ease;
             position: relative;
-            z-index: 2;
+            pointer-events: none;
             overflow: hidden;
         }
 
-        .tap-card:active { transform: scale(.92); }
+        .tap-wrapper:active .tap-card { transform: scale(.92); }
         
         .tap-logo-img {
             width: 100%;
@@ -290,9 +292,10 @@
             <div class="score-label">$TNR TOKEN BALANCE</div>
         </div>
 
-        <div class="tap-wrapper">
+        <!-- Tıklama Alanı Wrapper Üzerinden Sağlama Alındı -->
+        <div class="tap-wrapper" id="tap-button">
             <div class="tap-ring"></div>
-            <div class="tap-card" id="tap-button">
+            <div class="tap-card">
                 <img src="grok_image_x541lxd.jpg" alt="TONARIS" class="tap-logo-img">
             </div>
         </div>
@@ -370,14 +373,14 @@
 const tg = window.Telegram?.WebApp;
 
 let state = {
-    balance: parseInt(localStorage.getItem('tnr_balance_v8')) || 0,
-    energy: parseInt(localStorage.getItem('tnr_energy_v8')) || 5000,
-    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v8')) || 5000,
-    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v8')) || 500,
-    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v8')) || 1,
-    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v8')) || 1000,
-    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v8')) || [],
-    cards: JSON.parse(localStorage.getItem('tnr_cards_v8')) || {
+    balance: parseInt(localStorage.getItem('tnr_balance_v9')) || 0,
+    energy: parseInt(localStorage.getItem('tnr_energy_v9')) || 5000,
+    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v9')) || 5000,
+    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v9')) || 500,
+    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v9')) || 1,
+    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v9')) || 1000,
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v9')) || [],
+    cards: JSON.parse(localStorage.getItem('tnr_cards_v9')) || {
         brazil: { level: 0, cost: 500, profit: 50 },
         turkey: { level: 0, cost: 800, profit: 80 },
         realmadrid: { level: 0, cost: 1500, profit: 150 }
@@ -400,20 +403,21 @@ if (tg) {
 }
 
 function saveState() {
-    localStorage.setItem('tnr_balance_v8', state.balance);
-    localStorage.setItem('tnr_energy_v8', state.energy);
-    localStorage.setItem('tnr_maxenergy_v8', state.maxEnergy);
-    localStorage.setItem('tnr_profit_v8', state.profitPerHour);
-    localStorage.setItem('tnr_multitap_lvl_v8', state.multitapLevel);
-    localStorage.setItem('tnr_multitap_cost_v8', state.multitapCost);
-    localStorage.setItem('tnr_tasks_v8', JSON.stringify(state.completedTasks));
-    localStorage.setItem('tnr_cards_v8', JSON.stringify(state.cards));
+    localStorage.setItem('tnr_balance_v9', state.balance);
+    localStorage.setItem('tnr_energy_v9', state.energy);
+    localStorage.setItem('tnr_maxenergy_v9', state.maxEnergy);
+    localStorage.setItem('tnr_profit_v9', state.profitPerHour);
+    localStorage.setItem('tnr_multitap_lvl_v9', state.multitapLevel);
+    localStorage.setItem('tnr_multitap_cost_v9', state.multitapCost);
+    localStorage.setItem('tnr_tasks_v9', JSON.stringify(state.completedTasks));
+    localStorage.setItem('tnr_cards_v9', JSON.stringify(state.cards));
 }
 
-// İstediğin kurallar: Level 1 -> 5.000 max / tık başına 1 düşüş
-// Level 2 -> 10.000 max / tık başına 10 düşüş
-// Level 3 -> 30.000 max / tık başına 20 düşüş
-// Level 4+ -> 40.000 max / tık başına 30 düşüş
+// İstediğin Seviye Kuralları:
+// Level 1: Max 5.000 / Tık başına 1 düşer, 1 puan kazandırır
+// Level 2: Max 10.000 / Tık başına 10 düşer, 10 puan kazandırır
+// Level 3: Max 30.000 / Tık başına 20 düşer, 20 puan kazandırır
+// Level 4+: Max 40.000 / Tık başına 30 düşer, 30 puan kazandırır
 function getLevelRules() {
     if (state.multitapLevel === 1) return { max: 5000, tapValue: 1 };
     if (state.multitapLevel === 2) return { max: 10000, tapValue: 10 };
@@ -479,7 +483,7 @@ function buyMultitap() {
 
         let rules = getLevelRules();
         state.maxEnergy = rules.max;
-        state.energy = state.maxEnergy; // Level atlayınca enerji tam dolar
+        state.energy = state.maxEnergy; // Satın alınca yeni max enerjiye tam dolur
 
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
@@ -506,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUI();
     saveState();
 
-    // Zamanlayıcı (Saniyede bir pasif gelir ve yavaş enerji dolumu)
+    // Zamanlayıcı (Pasif gelir ve yavaş enerji dolumu)
     setInterval(() => {
         let rules = getLevelRules();
         if (state.energy < rules.max) {
@@ -518,7 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveState();
     }, 1000);
 
-    // Tıklama Olayı
+    // Kesin Çalışan Tıklama Olayı
     const tapButton = document.getElementById("tap-button");
     if (tapButton) {
         tapButton.addEventListener("click", (e) => {
@@ -529,6 +533,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            // Enerjiden düşer, bakiyeye ekler
             state.energy -= rules.tapValue;
             state.balance += rules.tapValue;
             
@@ -538,7 +543,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveState();
 
             // Uçan puan efekti
-            const rect = e.currentTarget.getBoundingClientRect();
+            const rect = tapButton.getBoundingClientRect();
             const x = e.clientX || (rect.left + rect.width / 2);
             const y = e.clientY || (rect.top + rect.height / 2);
 
@@ -559,8 +564,4 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".nav-item").forEach(button => {
         button.addEventListener("click", () => {
             const tab = button.dataset.tab;
-            document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
-            const targetSection = document.getElementById(tab + "-section");
-            if (targetSection) targetSection.classList.add("active");
-            
-            document.querySelectorAll(".nav-item").forEach(btn => btn.classList.
+            document.querySelectorAll(".section").forEach(section =>
