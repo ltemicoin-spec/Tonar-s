@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TONARIS — $TNR Global Empire</title>
+    <title>TONARIS — $TNR Global Empire & Lucky Draw</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
@@ -19,6 +19,7 @@
             --border-color: rgba(255, 255, 255, 0.12);
             --green: #10b981;
             --gold: #f59e0b;
+            --purple: #a855f7;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -51,7 +52,7 @@
             height: calc(100vh - 70px);
             overflow-y: auto;
             padding: 16px;
-            padding-bottom: 50px;
+            padding-bottom: 60px;
             text-align: center;
             position: relative;
         }
@@ -227,6 +228,76 @@
         }
         .btn-buy:disabled { opacity: 0.4; cursor: not-allowed; background: var(--text-muted); }
 
+        .btn-vip {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 9px;
+            font-weight: 800;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        /* ÇARKIFELEK STİLLERİ */
+        .wheel-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 20px auto;
+            border-radius: 50%;
+            border: 6px solid var(--accent-neon);
+            box-shadow: 0 0 30px var(--accent-glow);
+            overflow: hidden;
+            background: #0b111e;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 50%;
+            transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1);
+        }
+
+        .wheel-slice {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            left: 0; top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            padding-left: 25px;
+        }
+
+        .wheel-center-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), #ef4444);
+            border: 3px solid #fff;
+            color: #fff;
+            font-weight: 900;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wheel-center-btn:active { transform: translate(-50%, -50%) scale(0.92); }
+
         .btn-action {
             width: 100%;
             border: none;
@@ -271,13 +342,13 @@
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 11px;
+            font-size: 9px;
             cursor: pointer;
-            padding: 5px;
+            padding: 3px;
             font-weight: 600;
         }
         .nav-item.active { color: var(--accent-neon); }
-        .nav-icon { display: block; font-size: 20px; margin-bottom: 3px; }
+        .nav-icon { display: block; font-size: 17px; margin-bottom: 2px; }
 
         #ton-connect { display: flex; justify-content: center; margin-top: 15px; }
         .status { margin-top: 12px; color: var(--text-muted); font-size: 12px; }
@@ -308,7 +379,7 @@
         </div>
 
         <div class="stats-row">
-            <span>⚡ Enerji (Hızlı Tüketim / Yavaş Dolum)</span>
+            <span>⚡ Energy</span>
             <span><span id="energy">5000</span> / <span id="maxEnergy">5000</span></span>
         </div>
         <div class="energy-bar-bg">
@@ -317,73 +388,113 @@
     </section>
 
     <section id="boost-section" class="section">
-        <h2>🚀 Mega Mağaza & Yatırımlar</h2>
-        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Tüm varlıklar ve ülkeler 10 Level'e (MAX) kadar yükseltilebilir!</p>
-        
+        <h2>🚀 Mega Boost</h2>
         <div class="content-card">
-            <h3>⚡ Multitap (Tıklama Gücü & Enerji Kapasitesi)</h3>
+            <h3>⚡ Multitap Upgrade</h3>
             <div class="boost-grid">
                 <div class="boost-item">
                     <div class="boost-info">
                         <div class="boost-title" id="multitapTitle">Level 1</div>
-                        <div class="boost-lvl" id="multitapCostText">Maliyet: 1.000 💎</div>
+                        <div class="boost-lvl" id="multitapCostText">Cost: 1,000 💎</div>
                     </div>
-                    <button class="btn-buy" id="multitapBtn" onclick="buyMultitap()">Yükselt</button>
+                    <button class="btn-buy" id="multitapBtn" onclick="buyMultitap()">Upgrade</button>
                 </div>
+            </div>
+        </div>
+        <div class="content-card">
+            <h3>🌍 Global Assets</h3>
+            <div class="boost-grid" id="countryGrid"></div>
+            <div class="boost-grid" id="cryptoGrid" style="margin-top:10px;"></div>
+        </div>
+    </section>
+
+    <section id="vip-section" class="section">
+        <h2>👑 VIP Store</h2>
+        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Exclusive items paid with real TON. Payments go directly to your primary wallet!</p>
+        
+        <div class="content-card">
+            <h3>🏆 Founder Crown (VIP Pass)</h3>
+            <p class="task-description">Grants ultimate status in rankings and +50,000 TNR/h passive income.</p>
+            <div class="boost-item" style="border:none; padding:0;">
+                <div class="boost-info">
+                    <div class="boost-title">Price: 1.5 TON</div>
+                    <div class="boost-profit">+50,000 TNR/h Passive Income</div>
+                </div>
+                <button class="btn-vip" onclick="buyVipItem('Crown', 1500000000, 50000)">Buy (TON)</button>
             </div>
         </div>
 
         <div class="content-card">
-            <h3>🌍 Dünya Ülkeleri & Bölgeler</h3>
-            <div class="boost-grid" id="countryGrid"></div>
+            <h3>⚡ Mega Energy Battery</h3>
+            <p class="task-description">Permanently upgrades your energy capacity to 50,000 and maxes out tap power.</p>
+            <div class="boost-item" style="border:none; padding:0;">
+                <div class="boost-info">
+                    <div class="boost-title">Price: 1.0 TON</div>
+                    <div class="boost-profit">Max Capacity & Tap Power</div>
+                </div>
+                <button class="btn-vip" onclick="buyVipItem('Battery', 1000000000, 20000)">Buy (TON)</button>
+            </div>
         </div>
 
         <div class="content-card">
-            <h3>📈 Kripto Paralar & Ekosistem</h3>
-            <div class="boost-grid" id="cryptoGrid"></div>
+            <h3>🌐 Empire Global License</h3>
+            <p class="task-description">Unlocks elite global multi-node mining capabilities instantly.</p>
+            <div class="boost-item" style="border:none; padding:0;">
+                <div class="boost-info">
+                    <div class="boost-title">Price: 2.0 TON</div>
+                    <div class="boost-profit">+120,000 TNR/h Passive Income</div>
+                </div>
+                <button class="btn-vip" onclick="buyVipItem('License', 2000000000, 120000)">Buy (TON)</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="draw-section" class="section">
+        <h2>🎯 Lucky Draw & Prizes</h2>
+        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 10px;">Spin the wheel for 0.1 TON per spin! Real rewards sent to you.</p>
+
+        <div class="wheel-container">
+            <div class="wheel" id="wheel">
+                <div class="wheel-slice" style="transform: rotate(0deg) skewY(-30deg); background: #1e293b;">📱 Phone</div>
+                <div class="wheel-slice" style="transform: rotate(60deg) skewY(-30deg); background: #334155;">⌚ Watch</div>
+                <div class="wheel-slice" style="transform: rotate(120deg) skewY(-30deg); background: #1e293b;">🎮 PlayStation</div>
+                <div class="wheel-slice" style="transform: rotate(180deg) skewY(-30deg); background: #334155;">💎 100K TNR</div>
+                <div class="wheel-slice" style="transform: rotate(240deg) skewY(-30deg); background: #1e293b;">👑 VIP Crown</div>
+                <div class="wheel-slice" style="transform: rotate(300deg) skewY(-30deg); background: #334155;">💰 300K TNR</div>
+            </div>
+            <button class="wheel-center-btn" onclick="spinWheel()">GO</button>
         </div>
 
-        <div class="content-card">
-            <h3>🐾 Hayvanlar & Karakterler (Tom dahil)</h3>
-            <div class="boost-grid" id="animalGrid"></div>
-        </div>
-
-        <div class="content-card">
-            <h3>🛒 Günlük Alışveriş & Gıda</h3>
-            <div class="boost-grid" id="marketGrid"></div>
+        <div class="content-card" style="text-align: center; margin-top: 15px;">
+            <p id="spinResult" style="color: var(--accent-neon); font-weight: 700; font-size: 14px; margin: 0;">Cost per spin: 0.1 TON (Direct to Primary Wallet)</p>
         </div>
     </section>
 
     <section id="earn-section" class="section">
-        <h2>📋 Sosyal Görevler & Ödüller</h2>
-        <p style="color:var(--text-muted);font-size:13px; margin-bottom: 14px;">Önce bağlantılara git, ardından ödülünü topla!</p>
-        
+        <h2>📋 Social Tasks</h2>
         <div class="content-card">
-            <h3>📢 Telegram Kanalı</h3>
-            <p class="task-description">Resmi kanalımızı ziyaret et (+1.000 TNR)</p>
-            <a href="https://t.me/tonaris_channel" target="_blank" class="btn-action" onclick="markVisited('channel')">Kanala Git</a>
-            <button class="btn-action task-button" id="btn-task-channel" data-task="join_channel" data-reward="1000" disabled>Ödülü Al (Claim)</button>
+            <h3>📢 Telegram Channel</h3>
+            <a href="https://t.me/tonaris_channel" target="_blank" class="btn-action" onclick="markVisited('channel')">Go to Channel</a>
+            <button class="btn-action task-button" id="btn-task-channel" data-task="join_channel" data-reward="1000" disabled>Claim Reward</button>
         </div>
-
         <div class="content-card">
-            <h3>🐦 X (Twitter) Hesabı</h3>
-            <p class="task-description">Resmi X hesabımızı takip et (+1.500 TNR)</p>
-            <a href="https://x.com/TONARIS_io" target="_blank" class="btn-action" onclick="markVisited('twitter')">X Hesabına Git</a>
-            <button class="btn-action task-button" id="btn-task-twitter" data-task="follow_twitter" data-reward="1500" disabled>Ödülü Al (Claim)</button>
+            <h3>🐦 X (Twitter) Account</h3>
+            <a href="https://x.com/TONARIS_io" target="_blank" class="btn-action" onclick="markVisited('twitter')">Go to X Profile</a>
+            <button class="btn-action task-button" id="btn-task-twitter" data-task="follow_twitter" data-reward="1500" disabled>Claim Reward</button>
         </div>
     </section>
 
     <section id="leaderboard-section" class="section">
-        <h2>🏆 Küresel Sıralama</h2>
+        <h2>🏆 Global Leaderboard</h2>
         <div class="content-card" id="leaderboard"></div>
     </section>
 
     <section id="wallet-section" class="section">
-        <h2>👛 TON Cüzdanı</h2>
+        <h2>👛 TON Wallet</h2>
         <div class="content-card">
-            <p style="color:var(--text-muted);font-size:13px; margin-bottom:15px;">TON cüzdanını bağlayarak ekosisteme tam entegre ol.</p>
+            <p style="color:var(--text-muted);font-size:13px; margin-bottom:15px;">Connect your TON wallet to participate in draws and buy VIP assets.</p>
             <div id="ton-connect"></div>
-            <div class="status" id="wallet-status">Cüzdan bağlı değil.</div>
+            <div class="status" id="wallet-status">Wallet not connected.</div>
         </div>
     </section>
 </div>
@@ -391,56 +502,34 @@
 <div class="nav-bar">
     <button class="nav-item active" data-tab="home"><span class="nav-icon">💎</span>Exchange</button>
     <button class="nav-item" data-tab="boost"><span class="nav-icon">🚀</span>Boost</button>
+    <button class="nav-item" data-tab="vip"><span class="nav-icon">👑</span>VIP Store</button>
+    <button class="nav-item" data-tab="draw"><span class="nav-icon">🎯</span>Draw</button>
     <button class="nav-item" data-tab="earn"><span class="nav-icon">📋</span>Earn</button>
-    <button class="nav-item" data-tab="leaderboard"><span class="nav-icon">🏆</span>Rank</button>
     <button class="nav-item" data-tab="wallet"><span class="nav-icon">👛</span>Wallet</button>
 </div>
 
 <script>
 const tg = window.Telegram?.WebApp;
+let tonConnectUI = null;
+
+// BURAYA KENDİ BİRİNCİL TON CÜZDAN ADRESİNİ YAZACAKSIN:
+const PRIMARY_WALLET_ADDRESS = "YOUR_TON_WALLET_ADDRESS_HERE";
 
 let state = {
-    balance: parseFloat(localStorage.getItem('tnr_balance_v13')) || 0,
-    energy: parseFloat(localStorage.getItem('tnr_energy_v13')) || 5000,
-    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v13')) || 5000,
-    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v13')) || 500,
-    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v13')) || 1,
-    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v13')) || 1000,
-    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v13')) || [],
-    visitedLinks: JSON.parse(localStorage.getItem('tnr_visits_v13')) || { channel: false, twitter: false },
-    cards: JSON.parse(localStorage.getItem('tnr_cards_v13')) || {
-        // Dünya Ülkeleri (Geniş Liste)
-        turkey: { level: 0, maxLevel: 10, cost: 500, profit: 50, category: 'country', name: "🇹🇷 Türkiye Cumhuriyeti" },
+    balance: parseFloat(localStorage.getItem('tnr_balance_v15')) || 0,
+    energy: parseFloat(localStorage.getItem('tnr_energy_v15')) || 5000,
+    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v15')) || 5000,
+    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v15')) || 500,
+    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v15')) || 1,
+    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v15')) || 1000,
+    vipOwned: JSON.parse(localStorage.getItem('tnr_vip_v15')) || [],
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v15')) || [],
+    visitedLinks: JSON.parse(localStorage.getItem('tnr_visits_v15')) || { channel: false, twitter: false },
+    cards: JSON.parse(localStorage.getItem('tnr_cards_v15')) || {
+        turkey: { level: 0, maxLevel: 10, cost: 500, profit: 50, category: 'country', name: "🇹🇷 Türkiye Republic" },
         usa: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'country', name: "🇺🇸 United States" },
-        germany: { level: 0, maxLevel: 10, cost: 1200, profit: 130, category: 'country', name: "🇩🇪 Germany" },
-        uk: { level: 0, maxLevel: 10, cost: 1100, profit: 120, category: 'country', name: "🇬🇧 United Kingdom" },
-        france: { level: 0, maxLevel: 10, cost: 1000, profit: 110, category: 'country', name: "🇫🇷 France" },
-        japan: { level: 0, maxLevel: 10, cost: 1400, profit: 150, category: 'country', name: "🇯🇵 Japan" },
-        brazil: { level: 0, maxLevel: 10, cost: 900, profit: 95, category: 'country', name: "🇧🇷 Brazil" },
-        argentina: { level: 0, maxLevel: 10, cost: 800, profit: 85, category: 'country', name: "🇦🇷 Argentina" },
-        italy: { level: 0, maxLevel: 10, cost: 950, profit: 100, category: 'country', name: "🇮🇹 Italy" },
-        spain: { level: 0, maxLevel: 10, cost: 900, profit: 95, category: 'country', name: "🇪🇸 Spain" },
-        canada: { level: 0, maxLevel: 10, cost: 1150, profit: 125, category: 'country', name: "🇨🇦 Canada" },
-        australia: { level: 0, maxLevel: 10, cost: 1050, profit: 115, category: 'country', name: "🇦🇺 Australia" },
-        southkorea: { level: 0, maxLevel: 10, cost: 1300, profit: 140, category: 'country', name: "🇰🇷 South Korea" },
-        india: { level: 0, maxLevel: 10, cost: 1000, profit: 110, category: 'country', name: "🇮🇳 India" },
-        china: { level: 0, maxLevel: 10, cost: 1600, profit: 180, category: 'country', name: "🇨🇳 China" },
-        // Kriptolar
         bitcoin: { level: 0, maxLevel: 10, cost: 2000, profit: 220, category: 'crypto', name: "₿ Bitcoin (BTC)" },
-        ethereum: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'crypto', name: "Ξ Ethereum (ETH)" },
-        solana: { level: 0, maxLevel: 10, cost: 1200, profit: 130, category: 'crypto', name: "◎ Solana (SOL)" },
-        binance: { level: 0, maxLevel: 10, cost: 1800, profit: 200, category: 'crypto', name: "🟡 Binance Ecosystem" },
-        ton: { level: 0, maxLevel: 10, cost: 1000, profit: 110, category: 'crypto', name: "💎 TON Network" },
-        // Hayvanlar & Karakterler (Tom dahil)
-        tom: { level: 0, maxLevel: 10, cost: 600, profit: 60, category: 'animal', name: "🐱 Tom (Virtual Pet)" },
-        dog: { level: 0, maxLevel: 10, cost: 400, profit: 40, category: 'animal', name: "🐶 Loyal Dog" },
-        monkey: { level: 0, maxLevel: 10, cost: 850, profit: 85, category: 'animal', name: "🐵 Crypto Monkey" },
-        lion: { level: 0, maxLevel: 10, cost: 2000, profit: 220, category: 'animal', name: "🦁 Jungle King Lion" },
-        // Meyveler & Alışveriş
-        apple: { level: 0, maxLevel: 10, cost: 200, profit: 20, category: 'market', name: "🍎 Organic Apple" },
-        tomato: { level: 0, maxLevel: 10, cost: 150, profit: 15, category: 'market', name: "🍅 Fresh Tomato" },
-        pizza: { level: 0, maxLevel: 10, cost: 450, profit: 45, category: 'market', name: "🍕 Bitcoin Pizza" },
-        banana: { level: 0, maxLevel: 10, cost: 180, profit: 18, category: 'market', name: "🍌 Tropical Banana" }
+        ethereum: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'crypto', name: "Ξ Ethereum (ETH)" }
     }
 };
 
@@ -454,22 +543,22 @@ if (tg) {
 }
 
 function saveState() {
-    localStorage.setItem('tnr_balance_v13', state.balance);
-    localStorage.setItem('tnr_energy_v13', state.energy);
-    localStorage.setItem('tnr_maxenergy_v13', state.maxEnergy);
-    localStorage.setItem('tnr_profit_v13', state.profitPerHour);
-    localStorage.setItem('tnr_multitap_lvl_v13', state.multitapLevel);
-    localStorage.setItem('tnr_multitap_cost_v13', state.multitapCost);
-    localStorage.setItem('tnr_tasks_v13', JSON.stringify(state.completedTasks));
-    localStorage.setItem('tnr_visits_v13', JSON.stringify(state.visitedLinks));
-    localStorage.setItem('tnr_cards_v13', JSON.stringify(state.cards));
+    localStorage.setItem('tnr_balance_v15', state.balance);
+    localStorage.setItem('tnr_energy_v15', state.energy);
+    localStorage.setItem('tnr_maxenergy_v15', state.maxEnergy);
+    localStorage.setItem('tnr_profit_v15', state.profitPerHour);
+    localStorage.setItem('tnr_multitap_lvl_v15', state.multitapLevel);
+    localStorage.setItem('tnr_multitap_cost_v15', state.multitapCost);
+    localStorage.setItem('tnr_vip_v15', JSON.stringify(state.vipOwned));
+    localStorage.setItem('tnr_tasks_v15', JSON.stringify(state.completedTasks));
+    localStorage.setItem('tnr_visits_v15', JSON.stringify(state.visitedLinks));
+    localStorage.setItem('tnr_cards_v15', JSON.stringify(state.cards));
 }
 
-// Multitap Seviye Kriterleri (Max Level 10)
 function getLevelRules() {
     let lvl = state.multitapLevel;
     let maxCap = 5000 + (lvl - 1) * 2000; 
-    let tapVal = lvl * 5; // Tık başına güç yüksek, enerji hızlı tükenir
+    let tapVal = lvl * 5; 
     return { max: maxCap, tapValue: tapVal };
 }
 
@@ -486,30 +575,9 @@ function updateUI() {
     const percentage = (state.energy / state.maxEnergy) * 100;
     document.getElementById("energyFill").style.width = Math.max(0, Math.min(100, percentage)) + "%";
 
-    if (state.multitapLevel >= 10) {
-        document.getElementById("multitapTitle").innerText = `Multitap Level 10 (MAX)`;
-        document.getElementById("multitapCostText").innerText = `Maksimum Seviyeye Ulaşıldı`;
-        document.getElementById("multitapBtn").disabled = true;
-        document.getElementById("multitapBtn").innerText = `MAX`;
-    } else {
-        document.getElementById("multitapTitle").innerText = `Multitap Level ${state.multitapLevel} (Max: ${state.maxEnergy.toLocaleString()} / Tık: ${rules.tapValue})`;
-        document.getElementById("multitapCostText").innerText = `Maliyet: ${state.multitapCost.toLocaleString()} 💎`;
-        const multitapBtn = document.getElementById("multitapBtn");
-        if (multitapBtn) {
-            multitapBtn.disabled = state.balance < state.multitapCost;
-            multitapBtn.innerText = `${state.multitapCost.toLocaleString()} 💎`;
-        }
-    }
-
-    renderAllCards();
-    updateTaskButtons();
-}
-
-function renderAllCards() {
     renderCategoryCards('countryGrid', 'country');
     renderCategoryCards('cryptoGrid', 'crypto');
-    renderCategoryCards('animalGrid', 'animal');
-    renderCategoryCards('marketGrid', 'market');
+    updateTaskButtons();
 }
 
 function renderCategoryCards(containerId, category) {
@@ -544,11 +612,9 @@ function buyMultitap() {
         state.balance -= state.multitapCost;
         state.multitapLevel += 1;
         state.multitapCost = Math.floor(state.multitapCost * 2.5);
-
         let rules = getLevelRules();
         state.maxEnergy = rules.max;
         state.energy = state.maxEnergy;
-
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
         updateUI();
@@ -564,10 +630,98 @@ function buyCard(key) {
         card.level += 1;
         card.cost = Math.floor(card.cost * 1.65); 
         card.profit = Math.floor(card.profit * 1.35); 
-        
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
         updateUI();
+    }
+}
+
+// VIP Mağaza Satın Alımı (Gerçek TON ile Birincil Cüzdana)
+async function buyVipItem(itemName, amountNanoTon, bonusProfit) {
+    if (!tonConnectUI || !tonConnectUI.connected) {
+        alert("Please connect your TON wallet from the Wallet section first!");
+        return;
+    }
+
+    const transaction = {
+        validUntil: Math.floor(Date.now() / 1000) + 360,
+        messages: [
+            {
+                address: PRIMARY_WALLET_ADDRESS,
+                amount: amountNanoTon.toString()
+            }
+        ]
+    };
+
+    try {
+        alert("Processing transaction in wallet...");
+        await tonConnectUI.sendTransaction(transaction);
+        
+        state.profitPerHour += bonusProfit;
+        state.vipOwned.push(itemName);
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        saveState();
+        updateUI();
+        alert("Success! Payment verified and VIP asset assigned to your profile.");
+    } catch (e) {
+        alert("Transaction cancelled or insufficient balance.");
+    }
+}
+
+// ÇARKIFELEK / ÇEKİLİŞ FONKSİYONU (0.1 TON Ödeme ve Dönüş)
+let currentWheelRotation = 0;
+async function spinWheel() {
+    if (!tonConnectUI || !tonConnectUI.connected) {
+        alert("Please connect your TON wallet in the Wallet section to play the draw!");
+        return;
+    }
+
+    // 0.1 TON = 100000000 nanoTON
+    const transaction = {
+        validUntil: Math.floor(Date.now() / 1000) + 360,
+        messages: [
+            {
+                address: PRIMARY_WALLET_ADDRESS,
+                amount: "100000000" // 0.1 TON -> Doğrudan senin cüzdana akar
+            }
+        ]
+    };
+
+    try {
+        document.getElementById("spinResult").innerText = "Confirming 0.1 TON draw payment...";
+        await tonConnectUI.sendTransaction(transaction);
+
+        document.getElementById("spinResult").innerText = "Spinning the wheel...";
+        
+        // Rastgele dönme açısı hesaplama (En az 5 tam tur + rastgele dilim)
+        const randomDegree = Math.floor(Math.random() * 360) + 1800;
+        currentWheelRotation += randomDegree;
+        
+        const wheel = document.getElementById("wheel");
+        wheel.style.transform = `rotate(${currentWheelRotation}deg)`;
+
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
+
+        setTimeout(() => {
+            // Çark sonucuna göre ödül dağılımı
+            const prizes = ["Smartphone", "Smart Watch", "PlayStation 5", "100,000 TNR Balance", "VIP Crown", "300,000 TNR Balance"];
+            const normalizedDegree = (currentWheelRotation % 360);
+            const winningIndex = Math.floor((360 - (normalizedDegree % 360)) / 60) % 6;
+            const wonPrize = prizes[winningIndex];
+
+            if (wonPrize.includes("TNR")) {
+                let rewardAmount = wonPrize.includes("300") ? 300000 : 100000;
+                state.balance += rewardAmount;
+            }
+
+            document.getElementById("spinResult").innerText = `🎉 Congratulations! You won: ${wonPrize}`;
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            saveState();
+            updateUI();
+        }, 4000);
+
+    } catch (e) {
+        document.getElementById("spinResult").innerText = "Draw payment cancelled or failed.";
     }
 }
 
@@ -586,16 +740,15 @@ function updateTaskButtons() {
     tasks.forEach(t => {
         const btn = document.getElementById(`btn-task-${t.id}`);
         if (!btn) return;
-        
         if (state.completedTasks.includes(t.key)) {
             btn.innerText = "Claimed ✓";
             btn.disabled = true;
         } else if (state.visitedLinks[t.id]) {
             btn.disabled = false;
-            btn.innerText = "Ödülü Al (Claim)";
+            btn.innerText = "Claim Reward";
         } else {
             btn.disabled = true;
-            btn.innerText = "Önce Bağlantıya Git";
+            btn.innerText = "Visit Link First";
         }
     });
 }
@@ -604,25 +757,29 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUI();
     saveState();
 
-    // Zamanlayıcı: Pasif gelir ve YAVAŞ ENERJİ DOLUMU (~12-15 dakikada sıfırdan fulle)
+    try {
+        if (window.TON_CONNECT_UI) {
+            tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+                manifestUrl: window.location.origin + "/tonconnect-manifest.json",
+                buttonRootId: "ton-connect"
+            });
+        }
+    } catch (e) {}
+
     setInterval(() => {
         let rules = getLevelRules();
         if (state.energy < rules.max) {
-            // Yavaş dolum oranı ayarlandı
-            let rechargeRate = 1; 
-            state.energy = Math.min(rules.max, state.energy + rechargeRate);
+            state.energy = Math.min(rules.max, state.energy + 1);
         }
         state.balance += state.profitPerHour / 3600;
         updateUI();
         saveState();
     }, 1000);
 
-    // Tıklama Olayı (Hızlı tükenen enerji mekaniği)
     const tapButton = document.getElementById("tap-button");
     if (tapButton) {
         tapButton.addEventListener("click", (e) => {
             let rules = getLevelRules();
-            
             if (state.energy < rules.tapValue) {
                 if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
                 return;
@@ -630,13 +787,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             state.energy -= rules.tapValue;
             state.balance += rules.tapValue;
-            
             if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
 
             updateUI();
             saveState();
 
-            // Uçan Puan Animasyonu
             const rect = tapButton.getBoundingClientRect();
             const x = e.clientX || (rect.left + rect.width / 2);
             const y = e.clientY || (rect.top + rect.height / 2);
@@ -649,12 +804,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const container = document.getElementById("appContainer");
             if (container) container.appendChild(floatingNum);
-
             setTimeout(() => floatingNum.remove(), 800);
         });
     }
 
-    // Sekme Geçişleri
     document.querySelectorAll(".nav-item").forEach(button => {
         button.addEventListener("click", () => {
             const tab = button.dataset.tab;
@@ -669,7 +822,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Görev Ödülü Toplama Butonları
     document.querySelectorAll(".task-button").forEach(button => {
         button.addEventListener("click", () => {
             const taskId = button.dataset.task;
@@ -682,16 +834,6 @@ document.addEventListener("DOMContentLoaded", () => {
             saveState();
         });
     });
-
-    // TonConnect Entegrasyonu
-    try {
-        if (window.TON_CONNECT_UI) {
-            new TON_CONNECT_UI.TonConnectUI({
-                manifestUrl: window.location.origin + "/tonconnect-manifest.json",
-                buttonRootId: "ton-connect"
-            });
-        }
-    } catch (e) {}
 });
 
 function loadLeaderboard() {
@@ -701,8 +843,7 @@ function loadLeaderboard() {
     
     let botLeaders = [
         { name: "@CryptoWhale", balance: state.balance + 18500 },
-        { name: "@PavelDurov", balance: state.balance + 42000 },
-        { name: "@SatoshiN", balance: state.balance + 89000 }
+        { name: "@PavelDurov", balance: state.balance + 42000 }
     ].sort((a, b) => b.balance - a.balance);
 
     let fullList = [{ name: currentUsername, balance: state.balance }, ...botLeaders];
