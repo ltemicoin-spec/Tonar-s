@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TONARIS — $TNR</title>
+    <title>TONARIS — $TNR Ultimate Ecosystem</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
@@ -11,13 +11,14 @@
     <style>
         :root {
             --bg-deep: #07090e;
-            --bg-card: rgba(18, 24, 36, 0.92);
+            --bg-card: rgba(18, 24, 36, 0.94);
             --accent-neon: #00f0ff;
             --accent-glow: rgba(0,240,255,.4);
             --text-main: #fff;
             --text-muted: #8b9bb4;
             --border-color: rgba(255, 255, 255, 0.12);
             --green: #10b981;
+            --gold: #f59e0b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -39,7 +40,7 @@
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(7, 9, 14, 0.88);
+            background: rgba(7, 9, 14, 0.90);
             z-index: -1;
         }
 
@@ -50,7 +51,7 @@
             height: calc(100vh - 70px);
             overflow-y: auto;
             padding: 16px;
-            padding-bottom: 30px;
+            padding-bottom: 40px;
             text-align: center;
             position: relative;
         }
@@ -60,9 +61,9 @@
             justify-content: space-between;
             align-items: center;
             background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            padding: 12px 15px;
-            border-radius: 14px;
+            backdrop-filter: blur(12px);
+            padding: 12px 16px;
+            border-radius: 16px;
             border: 1px solid var(--border-color);
         }
 
@@ -71,7 +72,7 @@
         .user-league { margin-top: 3px; color: var(--accent-neon); font-size: 12px; }
 
         .profit-badge {
-            padding: 6px 11px;
+            padding: 6px 12px;
             border-radius: 20px;
             color: var(--accent-neon);
             background: rgba(0,240,255,.1);
@@ -80,9 +81,9 @@
             font-weight: 700;
         }
 
-        .score-box { margin: 18px 0 10px; }
-        .score-value { font-size: 36px; font-weight: 800; text-shadow: 0 0 20px var(--accent-glow); }
-        .score-label { color: var(--text-muted); font-size: 12px; letter-spacing: 1px; }
+        .score-box { margin: 20px 0 12px; }
+        .score-value { font-size: 38px; font-weight: 800; text-shadow: 0 0 25px var(--accent-glow); }
+        .score-label { color: var(--text-muted); font-size: 12px; letter-spacing: 1.5px; }
 
         .tap-wrapper {
             position: relative;
@@ -126,7 +127,7 @@
             overflow: hidden;
         }
 
-        .tap-wrapper:active .tap-card { transform: scale(.92); }
+        .tap-wrapper:active .tap-card { transform: scale(.93); }
         
         .tap-logo-img {
             width: 100%;
@@ -141,7 +142,7 @@
             color: var(--accent-neon);
             font-weight: 900;
             font-size: 24px;
-            text-shadow: 0 0 10px var(--accent-neon);
+            text-shadow: 0 0 12px var(--accent-neon);
             pointer-events: none;
             animation: floatUp 0.8s ease-out forwards;
             z-index: 999;
@@ -149,7 +150,7 @@
 
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-80px) scale(1.3); }
+            100% { opacity: 0; transform: translateY(-90px) scale(1.4); }
         }
 
         .stats-row {
@@ -157,8 +158,8 @@
             justify-content: space-between;
             color: var(--text-muted);
             font-size: 13px;
-            padding: 0 5px;
-            margin-top: 10px;
+            padding: 0 6px;
+            margin-top: 12px;
         }
 
         .energy-bar-bg {
@@ -185,16 +186,16 @@
 
         .content-card {
             background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 12px;
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
             text-align: left;
             border: 1px solid var(--border-color);
         }
 
-        .content-card h3 { margin: 0 0 4px 0; font-size: 15px; }
-        .task-description { color: var(--text-muted); font-size: 12px; margin: 4px 0 10px 0; }
+        .content-card h3 { margin: 0 0 6px 0; font-size: 16px; color: var(--text-main); }
+        .task-description { color: var(--text-muted); font-size: 12px; margin: 4px 0 12px 0; }
 
         .boost-grid { display: flex; flex-direction: column; gap: 10px; }
 
@@ -204,43 +205,46 @@
             align-items: center;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-color);
-            padding: 10px 12px;
-            border-radius: 10px;
+            padding: 12px 14px;
+            border-radius: 12px;
         }
 
         .boost-info { text-align: left; }
         .boost-title { font-size: 14px; font-weight: 700; }
-        .boost-lvl { color: var(--accent-neon); font-size: 11px; margin-top: 2px; }
-        .boost-profit { color: var(--green); font-size: 11px; }
+        .boost-lvl { color: var(--accent-neon); font-size: 11px; margin-top: 3px; }
+        .boost-profit { color: var(--green); font-size: 11px; margin-top: 2px; }
 
         .btn-buy {
             background: var(--accent-neon);
             color: #07090e;
             border: none;
-            padding: 7px 14px;
-            border-radius: 8px;
-            font-weight: 700;
+            padding: 8px 14px;
+            border-radius: 9px;
+            font-weight: 800;
             font-size: 12px;
             cursor: pointer;
+            white-space: nowrap;
         }
-        .btn-buy:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-buy:disabled { opacity: 0.4; cursor: not-allowed; background: var(--text-muted); }
 
         .btn-action {
             width: 100%;
             border: none;
-            padding: 11px;
-            border-radius: 9px;
+            padding: 12px;
+            border-radius: 10px;
             background: var(--accent-neon);
             color: #07090e;
             font-weight: 800;
+            font-size: 14px;
             cursor: pointer;
         }
+        .btn-action:disabled { background: rgba(0,240,255,0.2); color: var(--text-muted); cursor: not-allowed; }
 
         .leaderboard-row {
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            padding: 10px 0;
+            padding: 12px 0;
             border-bottom: 1px solid var(--border-color);
             font-size: 13px;
         }
@@ -249,12 +253,12 @@
         .nav-bar {
             position: fixed;
             left: 0; right: 0; bottom: 0;
-            height: 65px;
+            height: 70px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             background: rgba(18, 24, 36, 0.98);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             border-top: 1px solid var(--border-color);
             z-index: 1000;
         }
@@ -266,9 +270,10 @@
             font-size: 11px;
             cursor: pointer;
             padding: 5px;
+            font-weight: 600;
         }
         .nav-item.active { color: var(--accent-neon); }
-        .nav-icon { display: block; font-size: 18px; margin-bottom: 2px; }
+        .nav-icon { display: block; font-size: 20px; margin-bottom: 3px; }
 
         #ton-connect { display: flex; justify-content: center; margin-top: 15px; }
         .status { margin-top: 12px; color: var(--text-muted); font-size: 12px; }
@@ -277,7 +282,6 @@
 <body>
 
 <div class="app-container" id="appContainer">
-    <!-- HOME -->
     <section id="home-section" class="section active">
         <div class="profile-header">
             <div class="user-info">
@@ -292,7 +296,6 @@
             <div class="score-label">$TNR TOKEN BALANCE</div>
         </div>
 
-        <!-- Tıklama Alanı -->
         <div class="tap-wrapper" id="tap-button">
             <div class="tap-ring"></div>
             <div class="tap-card">
@@ -309,13 +312,12 @@
         </div>
     </section>
 
-    <!-- BOOST -->
     <section id="boost-section" class="section">
-        <h2>🚀 Mağaza & Seviyeler</h2>
-        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Seviye atladıkça sayaç kapasiten ve tıklama gücün artar!</p>
+        <h2>🚀 Mağaza & Geliştirmeler</h2>
+        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Seviye atladıkça sayaç kapasiten ve tıklama başına kazancın katlanır!</p>
         
         <div class="content-card">
-            <h3>⚡ Seviye Yükselt</h3>
+            <h3>⚡ Çoklu Tık & Kapasite (Multitap)</h3>
             <div class="boost-grid">
                 <div class="boost-item">
                     <div class="boost-info">
@@ -328,39 +330,49 @@
         </div>
 
         <div class="content-card">
-            <h3>🌍 Kulüpler & Ülkeler</h3>
+            <h3>🌍 Ülkeler & Kulüpler (Pasif Gelir Kartları)</h3>
             <div class="boost-grid" id="boostGrid"></div>
         </div>
     </section>
 
-    <!-- EARN -->
     <section id="earn-section" class="section">
-        <h2>Earn More TNR</h2>
-        <p style="color:var(--text-muted);font-size:13px;">Complete tasks and earn TNR.</p>
+        <h2>📋 Görevler & Ödüller</h2>
+        <p style="color:var(--text-muted);font-size:13px; margin-bottom: 14px;">Sosyal görevleri tamamla, ekstra TNR kazan!</p>
+        
         <div class="content-card">
-            <h3>📢 Join TONARIS Channel</h3>
-            <p class="task-description">Reward: +1,000 TNR</p>
+            <h3>📢 Telegram Kanalına Katıl</h3>
+            <p class="task-description">Ödül: +1.000 TNR</p>
             <button class="btn-action task-button" data-task="join_channel" data-reward="1000">Claim</button>
+        </div>
+
+        <div class="content-card">
+            <h3>🐦 X (Twitter) Hesabını Takip Et</h3>
+            <p class="task-description">Ödül: +1.500 TNR</p>
+            <button class="btn-action task-button" data-task="follow_twitter" data-reward="1500">Claim</button>
+        </div>
+
+        <div class="content-card">
+            <h3>💬 Topluluk Sohbetine Katıl</h3>
+            <p class="task-description">Ödül: +1.000 TNR</p>
+            <button class="btn-action task-button" data-task="join_chat" data-reward="1000">Claim</button>
         </div>
     </section>
 
-    <!-- LEADERBOARD -->
     <section id="leaderboard-section" class="section">
-        <h2>🏆 Global Leaderboard</h2>
+        <h2>🏆 Küresel Sıralama</h2>
         <div class="content-card" id="leaderboard"></div>
     </section>
 
-    <!-- WALLET -->
     <section id="wallet-section" class="section">
-        <h2>👛 TON Wallet</h2>
+        <h2>👛 TON Cüzdanı</h2>
         <div class="content-card">
+            <p style="color:var(--text-muted);font-size:13px; margin-bottom:15px;">TON cüzdanını bağlayarak tokenlerini yönetebilirsin.</p>
             <div id="ton-connect"></div>
-            <div class="status" id="wallet-status">Wallet not connected.</div>
+            <div class="status" id="wallet-status">Cüzdan bağlı değil.</div>
         </div>
     </section>
 </div>
 
-<!-- NAVIGATION -->
 <div class="nav-bar">
     <button class="nav-item active" data-tab="home"><span class="nav-icon">💎</span>Exchange</button>
     <button class="nav-item" data-tab="boost"><span class="nav-icon">🚀</span>Boost</button>
@@ -373,24 +385,30 @@
 const tg = window.Telegram?.WebApp;
 
 let state = {
-    balance: parseFloat(localStorage.getItem('tnr_balance_v10')) || 0,
-    energy: parseFloat(localStorage.getItem('tnr_energy_v10')) || 5000,
-    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v10')) || 5000,
-    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v10')) || 500,
-    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v10')) || 1,
-    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v10')) || 1000,
-    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v10')) || [],
-    cards: JSON.parse(localStorage.getItem('tnr_cards_v10')) || {
+    balance: parseFloat(localStorage.getItem('tnr_balance_v11')) || 0,
+    energy: parseFloat(localStorage.getItem('tnr_energy_v11')) || 5000,
+    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v11')) || 5000,
+    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v11')) || 500,
+    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v11')) || 1,
+    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v11')) || 1000,
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v11')) || [],
+    cards: JSON.parse(localStorage.getItem('tnr_cards_v11')) || {
         brazil: { level: 0, cost: 500, profit: 50 },
         turkey: { level: 0, cost: 800, profit: 80 },
-        realmadrid: { level: 0, cost: 1500, profit: 150 }
+        realmadrid: { level: 0, cost: 1500, profit: 150 },
+        barcelona: { level: 0, cost: 2000, profit: 220 },
+        argentina: { level: 0, cost: 3500, profit: 400 },
+        premierleague: { level: 0, cost: 6000, profit: 750 }
     }
 };
 
 const cardDataMeta = {
-    brazil: { name: "🇧🇷 Brazil Flag" },
-    turkey: { name: "🇹🇷 Turkey Flag" },
-    realmadrid: { name: "⚽ Real Madrid" }
+    brazil: { name: "🇧🇷 Brazil National Team" },
+    turkey: { name: "🇹🇷 Turkey National Team" },
+    realmadrid: { name: "⚽ Real Madrid CF" },
+    barcelona: { name: "⚽ FC Barcelona" },
+    argentina: { name: "🇦🇷 Argentina National Team" },
+    premierleague: { name: "🏆 Premier League Hub" }
 };
 
 if (tg) {
@@ -403,17 +421,17 @@ if (tg) {
 }
 
 function saveState() {
-    localStorage.setItem('tnr_balance_v10', state.balance);
-    localStorage.setItem('tnr_energy_v10', state.energy);
-    localStorage.setItem('tnr_maxenergy_v10', state.maxEnergy);
-    localStorage.setItem('tnr_profit_v10', state.profitPerHour);
-    localStorage.setItem('tnr_multitap_lvl_v10', state.multitapLevel);
-    localStorage.setItem('tnr_multitap_cost_v10', state.multitapCost);
-    localStorage.setItem('tnr_tasks_v10', JSON.stringify(state.completedTasks));
-    localStorage.setItem('tnr_cards_v10', JSON.stringify(state.cards));
+    localStorage.setItem('tnr_balance_v11', state.balance);
+    localStorage.setItem('tnr_energy_v11', state.energy);
+    localStorage.setItem('tnr_maxenergy_v11', state.maxEnergy);
+    localStorage.setItem('tnr_profit_v11', state.profitPerHour);
+    localStorage.setItem('tnr_multitap_lvl_v11', state.multitapLevel);
+    localStorage.setItem('tnr_multitap_cost_v11', state.multitapCost);
+    localStorage.setItem('tnr_tasks_v11', JSON.stringify(state.completedTasks));
+    localStorage.setItem('tnr_cards_v11', JSON.stringify(state.cards));
 }
 
-// Seviye Kuralları:
+// İstediğin Seviye ve Tıklama Kriterleri:
 // Level 1: Max 5.000 / Tık başına 1 düşer, 1 puan kazandırır
 // Level 2: Max 10.000 / Tık başına 10 düşer, 10 puan kazandırır
 // Level 3: Max 30.000 / Tık başına 20 düşer, 20 puan kazandırır
@@ -479,11 +497,11 @@ function buyMultitap() {
     if (state.balance >= state.multitapCost) {
         state.balance -= state.multitapCost;
         state.multitapLevel += 1;
-        state.multitapCost = Math.floor(state.multitapCost * 2);
+        state.multitapCost = Math.floor(state.multitapCost * 2.2);
 
         let rules = getLevelRules();
         state.maxEnergy = rules.max;
-        state.energy = state.maxEnergy; // Satın alınınca enerji yeni max değere tam dolar
+        state.energy = state.maxEnergy; // Satın alınınca enerji maksimuma dolar
 
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
@@ -497,8 +515,8 @@ function buyCard(key) {
         state.balance -= card.cost;
         state.profitPerHour += card.profit;
         card.level += 1;
-        card.cost = Math.floor(card.cost * 1.5); 
-        card.profit = Math.floor(card.profit * 1.3); 
+        card.cost = Math.floor(card.cost * 1.6); 
+        card.profit = Math.floor(card.profit * 1.35); 
         
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
@@ -506,16 +524,15 @@ function buyCard(key) {
     }
 }
 
-// DOM Yüklendikten Sonra Tüm İşlevleri Bağla
 document.addEventListener("DOMContentLoaded", () => {
     updateUI();
     saveState();
 
-    // Zamanlayıcı (Pasif Gelir ve Enerji Dolumu)
+    // Zamanlayıcı (Pasif kazanç ve kontrollü enerji dolumu)
     setInterval(() => {
         let rules = getLevelRules();
         if (state.energy < rules.max) {
-            let rechargeRate = Math.max(5, Math.floor(rules.max / 200)); 
+            let rechargeRate = Math.max(2, Math.floor(rules.max / 300)); 
             state.energy = Math.min(rules.max, state.energy + rechargeRate);
         }
         state.balance += state.profitPerHour / 3600;
@@ -523,7 +540,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveState();
     }, 1000);
 
-    // Tıklama Olayı (Garantili Çalışma)
+    // Tıklama Olayı (Hızlı ve Hatasız Tepki)
     const tapButton = document.getElementById("tap-button");
     if (tapButton) {
         tapButton.addEventListener("click", (e) => {
@@ -534,7 +551,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Enerjiden düş, bakiyeye ekle
             state.energy -= rules.tapValue;
             state.balance += rules.tapValue;
             
@@ -543,7 +559,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateUI();
             saveState();
 
-            // Uçan Puan Animasyonu
+            // Uçan Puan Efekti
             const rect = tapButton.getBoundingClientRect();
             const x = e.clientX || (rect.left + rect.width / 2);
             const y = e.clientY || (rect.top + rect.height / 2);
@@ -561,7 +577,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Sekme Geçişleri (Alt Menü)
+    // Sekme Geçişleri (Tab Navigation)
     document.querySelectorAll(".nav-item").forEach(button => {
         button.addEventListener("click", () => {
             const tab = button.dataset.tab;
@@ -576,7 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Görevler (Earn)
+    // Görev Yönetimi (Earn)
     document.querySelectorAll(".task-button").forEach(button => {
         const taskId = button.dataset.task;
         if (state.completedTasks.includes(taskId)) {
@@ -595,7 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // TonConnect Başlatma
+    // TonConnect Entegrasyonu
     try {
         if (window.TON_CONNECT_UI) {
             new TON_CONNECT_UI.TonConnectUI({
@@ -612,9 +628,9 @@ function loadLeaderboard() {
     const currentUsername = document.getElementById("user-tag")?.innerText || "Player";
     
     let botLeaders = [
-        { name: "@CryptoKing", balance: state.balance + 1500 },
-        { name: "@Pavel_Durov", balance: state.balance + 3200 },
-        { name: "@Satoshi_N", balance: state.balance + 5000 }
+        { name: "@CryptoWhale", balance: state.balance + 18500 },
+        { name: "@PavelDurov", balance: state.balance + 42000 },
+        { name: "@SatoshiN", balance: state.balance + 89000 }
     ].sort((a, b) => b.balance - a.balance);
 
     let fullList = [{ name: currentUsername, balance: state.balance }, ...botLeaders];
