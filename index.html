@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TONARIS — $TNR Ultimate Ecosystem</title>
+    <title>TONARIS — $TNR Mega Ecosystem</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
@@ -11,7 +11,7 @@
     <style>
         :root {
             --bg-deep: #07090e;
-            --bg-card: rgba(18, 24, 36, 0.94);
+            --bg-card: rgba(18, 24, 36, 0.95);
             --accent-neon: #00f0ff;
             --accent-glow: rgba(0,240,255,.4);
             --text-main: #fff;
@@ -40,7 +40,7 @@
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(7, 9, 14, 0.90);
+            background: rgba(7, 9, 14, 0.92);
             z-index: -1;
         }
 
@@ -51,7 +51,7 @@
             height: calc(100vh - 70px);
             overflow-y: auto;
             padding: 16px;
-            padding-bottom: 40px;
+            padding-bottom: 50px;
             text-align: center;
             position: relative;
         }
@@ -237,6 +237,10 @@
             font-weight: 800;
             font-size: 14px;
             cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            margin-bottom: 8px;
         }
         .btn-action:disabled { background: rgba(0,240,255,0.2); color: var(--text-muted); cursor: not-allowed; }
 
@@ -313,15 +317,15 @@
     </section>
 
     <section id="boost-section" class="section">
-        <h2>🚀 Mağaza & Geliştirmeler</h2>
-        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Seviye atladıkça sayaç kapasiten ve tıklama başına kazancın katlanır!</p>
+        <h2>🚀 Mega Mağaza & Yatırımlar</h2>
+        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Her kart 10 Level'e kadar yükseltilebilir (Max Level 10)!</p>
         
         <div class="content-card">
-            <h3>⚡ Çoklu Tık & Kapasite (Multitap)</h3>
+            <h3>⚡ Multitap (Tıklama Gücü & Kapasite)</h3>
             <div class="boost-grid">
                 <div class="boost-item">
                     <div class="boost-info">
-                        <div class="boost-title" id="multitapTitle">Level 1 (Max: 5.000 / Tık: 1)</div>
+                        <div class="boost-title" id="multitapTitle">Level 1</div>
                         <div class="boost-lvl" id="multitapCostText">Maliyet: 1.000 💎</div>
                     </div>
                     <button class="btn-buy" id="multitapBtn" onclick="buyMultitap()">Yükselt</button>
@@ -330,31 +334,49 @@
         </div>
 
         <div class="content-card">
-            <h3>🌍 Ülkeler & Kulüpler (Pasif Gelir Kartları)</h3>
-            <div class="boost-grid" id="boostGrid"></div>
+            <h3>📈 Kripto Paralar & Varlıklar</h3>
+            <div class="boost-grid" id="cryptoGrid"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>🐾 Hayvanlar & Karakterler (Tom dahil)</h3>
+            <div class="boost-grid" id="animalGrid"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>🍎 Alışveriş & Meyveler</h3>
+            <div class="boost-grid" id="marketGrid"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>⚽ Kulüpler & Ülkeler</h3>
+            <div class="boost-grid" id="clubGrid"></div>
         </div>
     </section>
 
     <section id="earn-section" class="section">
-        <h2>📋 Görevler & Ödüller</h2>
-        <p style="color:var(--text-muted);font-size:13px; margin-bottom: 14px;">Sosyal görevleri tamamla, ekstra TNR kazan!</p>
+        <h2>📋 Sosyal Görevler & Ödüller</h2>
+        <p style="color:var(--text-muted);font-size:13px; margin-bottom: 14px;">Önce bağlantılara git, ardından ödülünü topla!</p>
         
         <div class="content-card">
-            <h3>📢 Telegram Kanalına Katıl</h3>
-            <p class="task-description">Ödül: +1.000 TNR</p>
-            <button class="btn-action task-button" data-task="join_channel" data-reward="1000">Claim</button>
+            <h3>📢 Telegram Kanalı</h3>
+            <p class="task-description">Kanalımızı ziyaret et ve ödülü kap (+1.000 TNR)</p>
+            <a href="https://t.me/tonaris_official" target="_blank" class="btn-action" onclick="markVisited('channel')">Kanala Git</a>
+            <button class="btn-action task-button" id="btn-task-channel" data-task="join_channel" data-reward="1000" disabled>Ödülü Al (Claim)</button>
         </div>
 
         <div class="content-card">
-            <h3>🐦 X (Twitter) Hesabını Takip Et</h3>
-            <p class="task-description">Ödül: +1.500 TNR</p>
-            <button class="btn-action task-button" data-task="follow_twitter" data-reward="1500">Claim</button>
+            <h3>🐦 X (Twitter) Takip & Tweet</h3>
+            <p class="task-description">X hesabımızı takip et ve gönderiyi beğen (+1.500 TNR)</p>
+            <a href="https://twitter.com/tonaris_token" target="_blank" class="btn-action" onclick="markVisited('twitter')">X Gönderisine Git</a>
+            <button class="btn-action task-button" id="btn-task-twitter" data-task="follow_twitter" data-reward="1500" disabled>Ödülü Al (Claim)</button>
         </div>
 
         <div class="content-card">
-            <h3>💬 Topluluk Sohbetine Katıl</h3>
-            <p class="task-description">Ödül: +1.000 TNR</p>
-            <button class="btn-action task-button" data-task="join_chat" data-reward="1000">Claim</button>
+            <h3>💬 Topluluk Sohbet Grubu</h3>
+            <p class="task-description">Sohbetimize katıl, diğer oyuncularla tanış (+1.000 TNR)</p>
+            <a href="https://t.me/tonaris_chat" target="_blank" class="btn-action" onclick="markVisited('chat')">Sohbete Katıl</a>
+            <button class="btn-action task-button" id="btn-task-chat" data-task="join_chat" data-reward="1000" disabled>Ödülü Al (Claim)</button>
         </div>
     </section>
 
@@ -366,7 +388,7 @@
     <section id="wallet-section" class="section">
         <h2>👛 TON Cüzdanı</h2>
         <div class="content-card">
-            <p style="color:var(--text-muted);font-size:13px; margin-bottom:15px;">TON cüzdanını bağlayarak tokenlerini yönetebilirsin.</p>
+            <p style="color:var(--text-muted);font-size:13px; margin-bottom:15px;">TON cüzdanını bağlayarak ekosisteme tam entegre ol.</p>
             <div id="ton-connect"></div>
             <div class="status" id="wallet-status">Cüzdan bağlı değil.</div>
         </div>
@@ -385,30 +407,35 @@
 const tg = window.Telegram?.WebApp;
 
 let state = {
-    balance: parseFloat(localStorage.getItem('tnr_balance_v11')) || 0,
-    energy: parseFloat(localStorage.getItem('tnr_energy_v11')) || 5000,
-    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v11')) || 5000,
-    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v11')) || 500,
-    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v11')) || 1,
-    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v11')) || 1000,
-    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v11')) || [],
-    cards: JSON.parse(localStorage.getItem('tnr_cards_v11')) || {
-        brazil: { level: 0, cost: 500, profit: 50 },
-        turkey: { level: 0, cost: 800, profit: 80 },
-        realmadrid: { level: 0, cost: 1500, profit: 150 },
-        barcelona: { level: 0, cost: 2000, profit: 220 },
-        argentina: { level: 0, cost: 3500, profit: 400 },
-        premierleague: { level: 0, cost: 6000, profit: 750 }
+    balance: parseFloat(localStorage.getItem('tnr_balance_v12')) || 0,
+    energy: parseFloat(localStorage.getItem('tnr_energy_v12')) || 5000,
+    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v12')) || 5000,
+    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v12')) || 500,
+    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v12')) || 1,
+    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v12')) || 1000,
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v12')) || [],
+    visitedLinks: JSON.parse(localStorage.getItem('tnr_visits_v12')) || { channel: false, twitter: false, chat: false },
+    cards: JSON.parse(localStorage.getItem('tnr_cards_v12')) || {
+        // Kriptolar
+        bitcoin: { level: 0, maxLevel: 10, cost: 1200, profit: 120, category: 'crypto', name: "₿ Bitcoin (BTC)" },
+        ethereum: { level: 0, maxLevel: 10, cost: 900, profit: 90, category: 'crypto', name: "Ξ Ethereum (ETH)" },
+        solana: { level: 0, maxLevel: 10, cost: 700, profit: 70, category: 'crypto', name: "◎ Solana (SOL)" },
+        binance: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'crypto', name: "🟡 Binance Ecosystem" },
+        // Hayvanlar & Karakterler (Tom dahil)
+        tom: { level: 0, maxLevel: 10, cost: 600, profit: 60, category: 'animal', name: "🐱 Tom (Virtual Pet)" },
+        dog: { level: 0, maxLevel: 10, cost: 400, profit: 40, category: 'animal', name: "🐶 Loyal Dog" },
+        monkey: { level: 0, maxLevel: 10, cost: 850, profit: 85, category: 'animal', name: "🐵 Crypto Monkey" },
+        lion: { level: 0, maxLevel: 10, cost: 2000, profit: 220, category: 'animal', name: "🦁 Jungle King Lion" },
+        // Meyveler & Alışveriş
+        apple: { level: 0, maxLevel: 10, cost: 200, profit: 20, category: 'market', name: "🍎 Organic Apple" },
+        tomato: { level: 0, maxLevel: 10, cost: 150, profit: 15, category: 'market', name: "🍅 Fresh Tomato" },
+        pizza: { level: 0, maxLevel: 10, cost: 450, profit: 45, category: 'market', name: "🍕 Bitcoin Pizza" },
+        // Kulüpler & Ülkeler
+        brazil: { level: 0, maxLevel: 10, cost: 500, profit: 50, category: 'club', name: "🇧🇷 Brazil National Team" },
+        turkey: { level: 0, maxLevel: 10, cost: 800, profit: 80, category: 'club', name: "🇹🇷 Turkey National Team" },
+        realmadrid: { level: 0, maxLevel: 10, cost: 1500, profit: 150, category: 'club', name: "⚽ Real Madrid CF" },
+        barcelona: { level: 0, maxLevel: 10, cost: 2000, profit: 220, category: 'club', name: "⚽ FC Barcelona" }
     }
-};
-
-const cardDataMeta = {
-    brazil: { name: "🇧🇷 Brazil National Team" },
-    turkey: { name: "🇹🇷 Turkey National Team" },
-    realmadrid: { name: "⚽ Real Madrid CF" },
-    barcelona: { name: "⚽ FC Barcelona" },
-    argentina: { name: "🇦🇷 Argentina National Team" },
-    premierleague: { name: "🏆 Premier League Hub" }
 };
 
 if (tg) {
@@ -421,26 +448,23 @@ if (tg) {
 }
 
 function saveState() {
-    localStorage.setItem('tnr_balance_v11', state.balance);
-    localStorage.setItem('tnr_energy_v11', state.energy);
-    localStorage.setItem('tnr_maxenergy_v11', state.maxEnergy);
-    localStorage.setItem('tnr_profit_v11', state.profitPerHour);
-    localStorage.setItem('tnr_multitap_lvl_v11', state.multitapLevel);
-    localStorage.setItem('tnr_multitap_cost_v11', state.multitapCost);
-    localStorage.setItem('tnr_tasks_v11', JSON.stringify(state.completedTasks));
-    localStorage.setItem('tnr_cards_v11', JSON.stringify(state.cards));
+    localStorage.setItem('tnr_balance_v12', state.balance);
+    localStorage.setItem('tnr_energy_v12', state.energy);
+    localStorage.setItem('tnr_maxenergy_v12', state.maxEnergy);
+    localStorage.setItem('tnr_profit_v12', state.profitPerHour);
+    localStorage.setItem('tnr_multitap_lvl_v12', state.multitapLevel);
+    localStorage.setItem('tnr_multitap_cost_v12', state.multitapCost);
+    localStorage.setItem('tnr_tasks_v12', JSON.stringify(state.completedTasks));
+    localStorage.setItem('tnr_visits_v12', JSON.stringify(state.visitedLinks));
+    localStorage.setItem('tnr_cards_v12', JSON.stringify(state.cards));
 }
 
-// İstediğin Seviye ve Tıklama Kriterleri:
-// Level 1: Max 5.000 / Tık başına 1 düşer, 1 puan kazandırır
-// Level 2: Max 10.000 / Tık başına 10 düşer, 10 puan kazandırır
-// Level 3: Max 30.000 / Tık başına 20 düşer, 20 puan kazandırır
-// Level 4+: Max 40.000 / Tık başına 30 düşer, 30 puan kazandırır
+// Multitap Seviye Kriterleri (Max Level 10)
 function getLevelRules() {
-    if (state.multitapLevel === 1) return { max: 5000, tapValue: 1 };
-    if (state.multitapLevel === 2) return { max: 10000, tapValue: 10 };
-    if (state.multitapLevel === 3) return { max: 30000, tapValue: 20 };
-    return { max: 40000, tapValue: 30 };
+    let lvl = state.multitapLevel;
+    let maxCap = 5000 + (lvl - 1) * 5000; // Her seviyede 5000 artar (Max 50.000)
+    let tapVal = lvl * 2; // Her seviyede tık başına güç artar
+    return { max: maxCap, tapValue: tapVal };
 }
 
 function updateUI() {
@@ -456,37 +480,52 @@ function updateUI() {
     const percentage = (state.energy / state.maxEnergy) * 100;
     document.getElementById("energyFill").style.width = Math.max(0, Math.min(100, percentage)) + "%";
 
-    document.getElementById("multitapTitle").innerText = `Level ${state.multitapLevel} (Max: ${state.maxEnergy.toLocaleString()} / Tık: ${rules.tapValue})`;
-    document.getElementById("multitapCostText").innerText = `Maliyet: ${state.multitapCost.toLocaleString()} 💎`;
-    
-    const multitapBtn = document.getElementById("multitapBtn");
-    if (multitapBtn) {
-        multitapBtn.disabled = state.balance < state.multitapCost;
-        multitapBtn.innerText = `${state.multitapCost.toLocaleString()} 💎`;
+    if (state.multitapLevel >= 10) {
+        document.getElementById("multitapTitle").innerText = `Multitap Level 10 (MAX)`;
+        document.getElementById("multitapCostText").innerText = `Maksimum Seviyeye Ulaşıldı`;
+        document.getElementById("multitapBtn").disabled = true;
+        document.getElementById("multitapBtn").innerText = `MAX`;
+    } else {
+        document.getElementById("multitapTitle").innerText = `Multitap Level ${state.multitapLevel} (Max: ${state.maxEnergy.toLocaleString()} / Tık: ${rules.tapValue})`;
+        document.getElementById("multitapCostText").innerText = `Maliyet: ${state.multitapCost.toLocaleString()} 💎`;
+        const multitapBtn = document.getElementById("multitapBtn");
+        if (multitapBtn) {
+            multitapBtn.disabled = state.balance < state.multitapCost;
+            multitapBtn.innerText = `${state.multitapCost.toLocaleString()} 💎`;
+        }
     }
 
-    renderCards();
+    renderAllCards();
+    updateTaskButtons();
 }
 
-function renderCards() {
-    const grid = document.getElementById("boostGrid");
+function renderAllCards() {
+    renderCategoryCards('cryptoGrid', 'crypto');
+    renderCategoryCards('animalGrid', 'animal');
+    renderCategoryCards('marketGrid', 'market');
+    renderCategoryCards('clubGrid', 'club');
+}
+
+function renderCategoryCards(containerId, category) {
+    const grid = document.getElementById(containerId);
     if (!grid) return;
     grid.innerHTML = "";
 
     for (let key in state.cards) {
         let card = state.cards[key];
-        let meta = cardDataMeta[key];
+        if (card.category !== category) continue;
         
+        let isMax = card.level >= card.maxLevel;
         let item = document.createElement("div");
         item.className = "boost-item";
         item.innerHTML = `
             <div class="boost-info">
-                <div class="boost-title">${meta.name}</div>
-                <div class="boost-lvl">Level ${card.level}</div>
+                <div class="boost-title">${card.name}</div>
+                <div class="boost-lvl">${isMax ? 'Level 10 (MAX)' : `Level ${card.level} / 10`}</div>
                 <div class="boost-profit">+${card.profit} TNR/h</div>
             </div>
-            <button class="btn-buy" onclick="buyCard('${key}')" ${state.balance < card.cost ? 'disabled' : ''}>
-                ${card.cost.toLocaleString()} 💎
+            <button class="btn-buy" onclick="buyCard('${key}')" ${isMax || state.balance < card.cost ? 'disabled' : ''}>
+                ${isMax ? 'MAX' : card.cost.toLocaleString() + ' 💎'}
             </button>
         `;
         grid.appendChild(item);
@@ -494,14 +533,15 @@ function renderCards() {
 }
 
 function buyMultitap() {
+    if (state.multitapLevel >= 10) return;
     if (state.balance >= state.multitapCost) {
         state.balance -= state.multitapCost;
         state.multitapLevel += 1;
-        state.multitapCost = Math.floor(state.multitapCost * 2.2);
+        state.multitapCost = Math.floor(state.multitapCost * 2.5);
 
         let rules = getLevelRules();
         state.maxEnergy = rules.max;
-        state.energy = state.maxEnergy; // Satın alınınca enerji maksimuma dolar
+        state.energy = state.maxEnergy;
 
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
@@ -511,12 +551,13 @@ function buyMultitap() {
 
 function buyCard(key) {
     let card = state.cards[key];
+    if (card.level >= card.maxLevel) return;
     if (state.balance >= card.cost) {
         state.balance -= card.cost;
         state.profitPerHour += card.profit;
         card.level += 1;
-        card.cost = Math.floor(card.cost * 1.6); 
-        card.profit = Math.floor(card.profit * 1.35); 
+        card.cost = Math.floor(card.cost * 1.7); 
+        card.profit = Math.floor(card.profit * 1.4); 
         
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
@@ -524,15 +565,45 @@ function buyCard(key) {
     }
 }
 
+function markVisited(type) {
+    state.visitedLinks[type] = true;
+    saveState();
+    updateTaskButtons();
+}
+
+function updateTaskButtons() {
+    const tasks = [
+        { id: 'channel', key: 'join_channel' },
+        { id: 'twitter', key: 'follow_twitter' },
+        { id: 'chat', key: 'join_chat' }
+    ];
+
+    tasks.forEach(t => {
+        const btn = document.getElementById(`btn-task-${t.id}`);
+        if (!btn) return;
+        
+        if (state.completedTasks.includes(t.key)) {
+            btn.innerText = "Claimed ✓";
+            btn.disabled = true;
+        } else if (state.visitedLinks[t.id]) {
+            btn.disabled = false;
+            btn.innerText = "Ödülü Al (Claim)";
+        } else {
+            btn.disabled = true;
+            btn.innerText = "Önce Bağlantıya Git";
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     updateUI();
     saveState();
 
-    // Zamanlayıcı (Pasif kazanç ve kontrollü enerji dolumu)
+    // Zamanlayıcı (Pasif gelir ve kontrollü enerji dolumu)
     setInterval(() => {
         let rules = getLevelRules();
         if (state.energy < rules.max) {
-            let rechargeRate = Math.max(2, Math.floor(rules.max / 300)); 
+            let rechargeRate = Math.max(3, Math.floor(rules.max / 250)); 
             state.energy = Math.min(rules.max, state.energy + rechargeRate);
         }
         state.balance += state.profitPerHour / 3600;
@@ -540,7 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveState();
     }, 1000);
 
-    // Tıklama Olayı (Hızlı ve Hatasız Tepki)
+    // Tıklama Olayı (Hızlı, akıcı, enerji tüketimli)
     const tapButton = document.getElementById("tap-button");
     if (tapButton) {
         tapButton.addEventListener("click", (e) => {
@@ -559,7 +630,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateUI();
             saveState();
 
-            // Uçan Puan Efekti
+            // Uçan Puan Animasyonu
             const rect = tapButton.getBoundingClientRect();
             const x = e.clientX || (rect.left + rect.width / 2);
             const y = e.clientY || (rect.top + rect.height / 2);
@@ -577,7 +648,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Sekme Geçişleri (Tab Navigation)
+    // Sekme Geçişleri
     document.querySelectorAll(".nav-item").forEach(button => {
         button.addEventListener("click", () => {
             const tab = button.dataset.tab;
@@ -592,20 +663,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Görev Yönetimi (Earn)
+    // Görev Ödülü Toplama Butonları
     document.querySelectorAll(".task-button").forEach(button => {
-        const taskId = button.dataset.task;
-        if (state.completedTasks.includes(taskId)) {
-            button.innerText = "Claimed ✓";
-            button.disabled = true;
-        }
         button.addEventListener("click", () => {
+            const taskId = button.dataset.task;
             if (state.completedTasks.includes(taskId)) return;
             const reward = parseInt(button.dataset.reward) || 1000;
             state.balance += reward;
             state.completedTasks.push(taskId);
-            button.innerText = "Claimed ✓";
-            button.disabled = true;
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             updateUI();
             saveState();
         });
