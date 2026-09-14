@@ -2,11 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TONARIS — $TNR</title>
 
     <!-- Telegram Mini App -->
@@ -36,20 +32,12 @@
             margin: 0;
             background: var(--bg-deep);
             color: var(--text-main);
-            font-family:
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                Roboto,
-                Arial,
-                sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             min-height: 100vh;
             overflow: hidden;
         }
 
-        button {
-            font-family: inherit;
-        }
+        button { font-family: inherit; }
 
         .app-container {
             height: 100vh;
@@ -69,20 +57,9 @@
             border: 1px solid var(--border-color);
         }
 
-        .user-info {
-            text-align: left;
-        }
-
-        .user-name {
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .user-league {
-            margin-top: 3px;
-            color: var(--accent-neon);
-            font-size: 12px;
-        }
+        .user-info { text-align: left; }
+        .user-name { font-size: 15px; font-weight: 700; }
+        .user-league { margin-top: 3px; color: var(--accent-neon); font-size: 12px; }
 
         .profit-badge {
             padding: 6px 11px;
@@ -93,21 +70,9 @@
             font-size: 12px;
         }
 
-        .score-box {
-            margin: 22px 0 10px;
-        }
-
-        .score-value {
-            font-size: 38px;
-            font-weight: 800;
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .score-label {
-            color: var(--text-muted);
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
+        .score-box { margin: 22px 0 10px; }
+        .score-value { font-size: 38px; font-weight: 800; text-shadow: 0 0 20px var(--accent-glow); }
+        .score-label { color: var(--text-muted); font-size: 13px; letter-spacing: 1px; }
 
         .tap-wrapper {
             position: relative;
@@ -129,23 +94,13 @@
             animation: rotateRing 15s linear infinite;
         }
 
-        @keyframes rotateRing {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes rotateRing { to { transform: rotate(360deg); } }
 
         .tap-card {
             width: 180px;
             height: 180px;
             border-radius: 50%;
-            background:
-                radial-gradient(
-                    circle,
-                    #0ea5e9 0%,
-                    #0369a1 50%,
-                    #07090e 100%
-                );
+            background: radial-gradient(circle, #0ea5e9 0%, #0369a1 50%, #07090e 100%);
             border: 4px solid var(--accent-neon);
             box-shadow: 0 0 40px var(--accent-glow);
             display: flex;
@@ -158,13 +113,8 @@
             z-index: 2;
         }
 
-        .tap-card:active {
-            transform: scale(.92);
-        }
-
-        .tap-icon {
-            font-size: 70px;
-        }
+        .tap-card:active { transform: scale(.92); }
+        .tap-icon { font-size: 70px; }
 
         .stats-row {
             display: flex;
@@ -189,22 +139,12 @@
             width: 100%;
             height: 100%;
             border-radius: 6px;
-            background:
-                linear-gradient(
-                    90deg,
-                    #0284c7,
-                    var(--accent-neon)
-                );
+            background: linear-gradient(90deg, #0284c7, var(--accent-neon));
             transition: width .2s ease;
         }
 
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
+        .section { display: none; }
+        .section.active { display: block; }
 
         .content-card {
             background: var(--bg-card);
@@ -215,16 +155,8 @@
             border: 1px solid var(--border-color);
         }
 
-        .content-card h3 {
-            margin: 0;
-            font-size: 15px;
-        }
-
-        .task-description {
-            color: var(--text-muted);
-            font-size: 12px;
-            margin: 7px 0;
-        }
+        .content-card h3 { margin: 0; font-size: 15px; }
+        .task-description { color: var(--text-muted); font-size: 12px; margin: 7px 0; }
 
         .btn-action {
             width: 100%;
@@ -236,11 +168,7 @@
             font-weight: 800;
             cursor: pointer;
         }
-
-        .btn-action:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
+        .btn-action:disabled { opacity: .6; cursor: not-allowed; }
 
         .leaderboard-row {
             display: flex;
@@ -250,10 +178,7 @@
             border-bottom: 1px solid var(--border-color);
             font-size: 13px;
         }
-
-        .leaderboard-row:last-child {
-            border-bottom: none;
-        }
+        .leaderboard-row:last-child { border-bottom: none; }
 
         .nav-bar {
             position: fixed;
@@ -275,676 +200,244 @@
             font-size: 11px;
             cursor: pointer;
         }
+        .nav-item.active { color: var(--accent-neon); }
+        .nav-icon { display: block; font-size: 20px; margin-bottom: 3px; }
 
-        .nav-item.active {
-            color: var(--accent-neon);
-        }
-
-        .nav-icon {
-            display: block;
-            font-size: 20px;
-            margin-bottom: 3px;
-        }
-
-        #ton-connect {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .status {
-            margin-top: 12px;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        .loading {
-            opacity: .6;
-            pointer-events: none;
-        }
+        #ton-connect { display: flex; justify-content: center; margin-top: 15px; }
+        .status { margin-top: 12px; color: var(--text-muted); font-size: 12px; }
     </style>
 </head>
-
 <body>
 
 <div class="app-container">
-
     <!-- HOME -->
     <section id="home-section" class="section active">
-
         <div class="profile-header">
             <div class="user-info">
-                <div class="user-name" id="user-tag">
-                    Loading...
-                </div>
-
-                <div class="user-league">
-                    💎 Bronze League
-                </div>
+                <div class="user-name" id="user-tag">Player</div>
+                <div class="user-league">💎 Bronze League</div>
             </div>
-
-            <div class="profit-badge">
-                🚀 +500/h
-            </div>
+            <div class="profit-badge">🚀 +500/h</div>
         </div>
 
         <div class="score-box">
-            <div class="score-value" id="score">
-                0
-            </div>
-
-            <div class="score-label">
-                $TNR TOKEN BALANCE
-            </div>
+            <div class="score-value" id="score">0</div>
+            <div class="score-label">$TNR TOKEN BALANCE</div>
         </div>
 
         <div class="tap-wrapper">
-
             <div class="tap-ring"></div>
-
-            <div
-                class="tap-card"
-                id="tap-button"
-            >
-                <div class="tap-icon">
-                    🚀
-                </div>
+            <div class="tap-card" id="tap-button">
+                <div class="tap-icon">🚀</div>
             </div>
-
         </div>
 
         <div class="stats-row">
             <span>⚡ Energy</span>
-
-            <span>
-                <span id="energy">1000</span> / 1000
-            </span>
+            <span><span id="energy">1000</span> / 1000</span>
         </div>
-
         <div class="energy-bar-bg">
-            <div
-                class="energy-bar-fill"
-                id="energyFill"
-            ></div>
+            <div class="energy-bar-fill" id="energyFill" style="width: 100%;"></div>
         </div>
-
     </section>
-
 
     <!-- EARN -->
     <section id="earn-section" class="section">
-
         <h2>Earn More TNR</h2>
-
-        <p style="color:var(--text-muted);font-size:13px;">
-            Complete tasks and earn TNR.
-        </p>
+        <p style="color:var(--text-muted);font-size:13px;">Complete tasks and earn TNR.</p>
 
         <div class="content-card">
             <h3>📢 Join TONARIS Channel</h3>
-
-            <p class="task-description">
-                Reward: +10,000 TNR
-            </p>
-
-            <button
-                class="btn-action task-button"
-                data-task="join_channel"
-            >
-                Claim
-            </button>
+            <p class="task-description">Reward: +10,000 TNR</p>
+            <button class="btn-action task-button" data-task="join_channel" data-reward="10000">Claim</button>
         </div>
-
 
         <div class="content-card">
             <h3>🐦 Follow TONARIS on X</h3>
-
-            <p class="task-description">
-                Reward: +10,000 TNR
-            </p>
-
-            <button
-                class="btn-action task-button"
-                data-task="follow_x"
-            >
-                Claim
-            </button>
+            <p class="task-description">Reward: +10,000 TNR</p>
+            <button class="btn-action task-button" data-task="follow_x" data-reward="10000">Claim</button>
         </div>
-
 
         <div class="content-card">
             <h3>⭐ Partner Ecosystem</h3>
-
-            <p class="task-description">
-                Sponsored reward: +25,000 TNR
-            </p>
-
-            <button
-                class="btn-action task-button"
-                data-task="partner"
-            >
-                Claim
-            </button>
+            <p class="task-description">Sponsored reward: +25,000 TNR</p>
+            <button class="btn-action task-button" data-task="partner" data-reward="25000">Claim</button>
         </div>
-
     </section>
-
 
     <!-- LEADERBOARD -->
     <section id="leaderboard-section" class="section">
-
         <h2>🏆 Global Leaderboard</h2>
-
-        <p style="color:var(--text-muted);font-size:13px;">
-            Top TONARIS miners.
-        </p>
-
+        <p style="color:var(--text-muted);font-size:13px;">Top TONARIS miners.</p>
         <div class="content-card" id="leaderboard">
-            Loading...
+            <!-- Dinamik doldurulacak -->
         </div>
-
     </section>
-
 
     <!-- WALLET -->
     <section id="wallet-section" class="section">
-
         <h2>👛 TON Wallet</h2>
-
-        <p style="color:var(--text-muted);font-size:13px;">
-            Connect your TON wallet.
-        </p>
-
+        <p style="color:var(--text-muted);font-size:13px;">Connect your TON wallet.</p>
         <div class="content-card">
-
             <div id="ton-connect"></div>
-
-            <div
-                class="status"
-                id="wallet-status"
-            >
-                Wallet not connected.
-            </div>
-
+            <div class="status" id="wallet-status">Wallet not connected.</div>
         </div>
-
     </section>
-
 </div>
-
 
 <!-- NAVIGATION -->
-
 <div class="nav-bar">
-
-    <button
-        class="nav-item active"
-        data-tab="home"
-    >
-        <span class="nav-icon">🚀</span>
-        Exchange
-    </button>
-
-    <button
-        class="nav-item"
-        data-tab="earn"
-    >
-        <span class="nav-icon">📋</span>
-        Earn
-    </button>
-
-    <button
-        class="nav-item"
-        data-tab="leaderboard"
-    >
-        <span class="nav-icon">🏆</span>
-        Rank
-    </button>
-
-    <button
-        class="nav-item"
-        data-tab="wallet"
-    >
-        <span class="nav-icon">👛</span>
-        Wallet
-    </button>
-
+    <button class="nav-item active" data-tab="home"><span class="nav-icon">🚀</span>Exchange</button>
+    <button class="nav-item" data-tab="earn"><span class="nav-icon">📋</span>Earn</button>
+    <button class="nav-item" data-tab="leaderboard"><span class="nav-icon">🏆</span>Rank</button>
+    <button class="nav-item" data-tab="wallet"><span class="nav-icon">👛</span>Wallet</button>
 </div>
 
-
 <script>
-
+// --- STATE & TELEGRAM INIT ---
 const tg = window.Telegram?.WebApp;
-
-let telegramUser = null;
-let state = null;
-let tonConnectUI = null;
-
-
-/* -----------------------------
-   TELEGRAM INIT
------------------------------ */
+let state = {
+    balance: parseInt(localStorage.getItem('tnr_balance')) || 45120,
+    energy: parseInt(localStorage.getItem('tnr_energy')) || 1000,
+    maxEnergy: 1000,
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks')) || []
+};
 
 if (tg) {
-
     tg.ready();
     tg.expand();
-
-    telegramUser = tg.initDataUnsafe?.user || null;
-
-    if (telegramUser) {
-
-        const username =
-            telegramUser.username
-            ? "@" + telegramUser.username
-            : telegramUser.first_name || "Player";
-
-        document.getElementById("user-tag")
-            .innerText = username;
+    const user = tg.initDataUnsafe?.user;
+    if (user) {
+        const username = user.username ? "@" + user.username : (user.first_name || "Player");
+        document.getElementById("user-tag").innerText = username;
     }
 }
 
-
-/* -----------------------------
-   API HELPER
------------------------------ */
-
-async function api(url, options = {}) {
-
-    const headers = {
-        "Content-Type": "application/json",
-
-        "X-Telegram-Init-Data":
-            tg?.initData || ""
-    };
-
-    const response = await fetch(
-        url,
-        {
-            ...options,
-            headers: {
-                ...headers,
-                ...(options.headers || {})
-            }
-        }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(
-            data.error || "Server error"
-        );
-    }
-
-    return data;
+function saveState() {
+    localStorage.setItem('tnr_balance', state.balance);
+    localStorage.setItem('tnr_energy', state.energy);
+    localStorage.setItem('tnr_tasks', JSON.stringify(state.completedTasks));
 }
-
-
-/* -----------------------------
-   LOAD USER
------------------------------ */
-
-async function loadUser() {
-
-    try {
-
-        state = await api("/api/me");
-
-        updateUI();
-
-        loadTasks();
-
-    } catch (error) {
-
-        console.error(error);
-
-        document.getElementById("user-tag")
-            .innerText = "Telegram only";
-
-        tg?.showAlert?.(
-            "Open TONARIS from Telegram."
-        );
-    }
-}
-
-
-/* -----------------------------
-   UPDATE UI
------------------------------ */
 
 function updateUI() {
-
-    if (!state) return;
-
-    document.getElementById("score")
-        .innerText =
-        Number(state.balance)
-            .toLocaleString();
-
-    document.getElementById("energy")
-        .innerText =
-        state.energy;
-
-    const percentage =
-        (state.energy / state.maxEnergy) * 100;
-
-    document.getElementById("energyFill")
-        .style.width =
-        percentage + "%";
+    document.getElementById("score").innerText = Number(state.balance).toLocaleString();
+    document.getElementById("energy").innerText = state.energy;
+    const percentage = (state.energy / state.maxEnergy) * 100;
+    document.getElementById("energyFill").style.width = percentage + "%";
 }
+updateUI();
 
-
-/* -----------------------------
-   TAP
------------------------------ */
-
-document
-    .getElementById("tap-button")
-    .addEventListener(
-        "click",
-        async () => {
-
-            if (!state || state.energy <= 0)
-                return;
-
-            const button =
-                document.getElementById(
-                    "tap-button"
-                );
-
-            button.classList.add("loading");
-
-            try {
-
-                state =
-                    await api(
-                        "/api/tap",
-                        {
-                            method: "POST"
-                        }
-                    );
-
-                updateUI();
-
-            } catch (error) {
-
-                console.error(error);
-
-            } finally {
-
-                button.classList.remove(
-                    "loading"
-                );
-            }
-        }
-    );
-
-
-/* -----------------------------
-   TASKS
------------------------------ */
-
-async function loadTasks() {
-
-    try {
-
-        const data =
-            await api("/api/tasks");
-
-        document
-            .querySelectorAll(".task-button")
-            .forEach(button => {
-
-                const task =
-                    data.tasks.find(
-                        x =>
-                        x.id ===
-                        button.dataset.task
-                    );
-
-                if (!task) return;
-
-                if (task.completed) {
-
-                    button.innerText =
-                        "Claimed ✓";
-
-                    button.disabled = true;
-
-                }
-
-            });
-
-    } catch (error) {
-
-        console.error(error);
-
+// Energy recovery timer (1 energy per second)
+setInterval(() => {
+    if (state.energy < state.maxEnergy) {
+        state.energy = Math.min(state.maxEnergy, state.energy + 5);
+        updateUI();
+        saveState();
     }
-}
+}, 3000);
 
+// --- TAP MECHANIC ---
+document.getElementById("tap-button").addEventListener("click", () => {
+    if (state.energy <= 0) return;
+    
+    state.balance += 1;
+    state.energy -= 1;
+    updateUI();
+    saveState();
+});
 
-document
-    .querySelectorAll(".task-button")
-    .forEach(button => {
+// --- TASKS LOGIC ---
+document.querySelectorAll(".task-button").forEach(button => {
+    const taskId = button.dataset.task;
+    if (state.completedTasks.includes(taskId)) {
+        button.innerText = "Claimed ✓";
+        button.disabled = true;
+    }
 
-        button.addEventListener(
-            "click",
-            async () => {
+    button.addEventListener("click", () => {
+        if (state.completedTasks.includes(taskId)) return;
 
-                const taskId =
-                    button.dataset.task;
+        const reward = parseInt(button.dataset.reward) || 10000;
+        state.balance += reward;
+        state.completedTasks.push(taskId);
+        
+        button.innerText = "Claimed ✓";
+        button.disabled = true;
 
-                button.disabled = true;
-
-                try {
-
-                    const result =
-                        await api(
-                            "/api/tasks/claim",
-                            {
-                                method: "POST",
-
-                                body:
-                                    JSON.stringify({
-                                        taskId
-                                    })
-                            }
-                        );
-
-                    state =
-                        result.user;
-
-                    updateUI();
-
-                    button.innerText =
-                        "Claimed ✓";
-
-                } catch (error) {
-
-                    button.disabled = false;
-
-                    tg?.showAlert?.(
-                        error.message
-                    );
-                }
-
-            }
-        );
-
+        updateUI();
+        saveState();
+        tg?.showAlert?.(`Successfully claimed +${reward.toLocaleString()} TNR!`);
     });
+});
 
+// --- LEADERBOARD ---
+function loadLeaderboard() {
+    const container = document.getElementById("leaderboard");
+    const mockLeaders = [
+        { name: document.getElementById("user-tag").innerText, balance: state.balance },
+        { name: "@Satoshi_N", balance: 1250000 },
+        { name: "@Pavel_Durov", balance: 980000 },
+        { name: "@CryptoKing", balance: 650000 },
+        { name: "@TonMiner", balance: 320000 }
+    ].sort((a, b) => b.balance - a.balance);
 
-/* -----------------------------
-   LEADERBOARD
------------------------------ */
-
-async function loadLeaderboard() {
-
-    try {
-
-        const data =
-            await api(
-                "/api/leaderboard"
-            );
-
-        const container =
-            document.getElementById(
-                "leaderboard"
-            );
-
-        container.innerHTML = "";
-
-        data.leaderboard
-            .forEach((user, index) => {
-
-                const row =
-                    document.createElement(
-                        "div"
-                    );
-
-                row.className =
-                    "leaderboard-row";
-
-                row.innerHTML = `
-                    <span>
-                        ${index + 1}. ${escapeHtml(user.name)}
-                    </span>
-
-                    <b>
-                        ${Number(user.balance).toLocaleString()}
-                        TNR
-                    </b>
-                `;
-
-                container.appendChild(row);
-            });
-
-    } catch (error) {
-
-        console.error(error);
-
-    }
-}
-
-
-/* -----------------------------
-   TAB SYSTEM
------------------------------ */
-
-document
-    .querySelectorAll(".nav-item")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const tab =
-                    button.dataset.tab;
-
-                document
-                    .querySelectorAll(
-                        ".section"
-                    )
-                    .forEach(section =>
-                        section.classList.remove(
-                            "active"
-                        )
-                    );
-
-                document
-                    .getElementById(
-                        tab + "-section"
-                    )
-                    .classList.add(
-                        "active"
-                    );
-
-                document
-                    .querySelectorAll(
-                        ".nav-item"
-                    )
-                    .forEach(btn =>
-                        btn.classList.remove(
-                            "active"
-                        )
-                    );
-
-                button.classList.add(
-                    "active"
-                );
-
-                if (tab === "leaderboard") {
-                    loadLeaderboard();
-                }
-
-            }
-        );
-
+    container.innerHTML = "";
+    mockLeaders.forEach((user, index) => {
+        const row = document.createElement("div");
+        row.className = "leaderboard-row";
+        row.innerHTML = `<span>${index + 1}. ${escapeHtml(user.name)}</span><b>${Number(user.balance).toLocaleString()} TNR</b>`;
+        container.appendChild(row);
     });
-
-
-/* -----------------------------
-   TON CONNECT
------------------------------ */
-
-function initTonConnect() {
-
-    if (
-        !window.TON_CONNECT_UI
-    ) {
-        console.error(
-            "TON Connect library unavailable"
-        );
-
-        return;
-    }
-
-    tonConnectUI =
-        new TON_CONNECT_UI.TonConnectUI({
-
-            manifestUrl:
-                window.location.origin +
-                "/tonconnect-manifest.json",
-
-            buttonRootId:
-                "ton-connect"
-
-        });
-
-    tonConnectUI.onStatusChange(
-        wallet => {
-
-            const status =
-                document.getElementById(
-                    "wallet-status"
-                );
-
-            if (wallet) {
-
-                status.innerText =
-                    "Connected: " +
-                    wallet.account.address;
-
-            } else {
-
-                status.innerText =
-                    "Wallet not connected.";
-
-            }
-
-        }
-    );
 }
 
+// --- TAB SYSTEM ---
+document.querySelectorAll(".nav-item").forEach(button => {
+    button.addEventListener("click", () => {
+        const tab = button.dataset.tab;
+        document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
+        document.getElementById(tab + "-section").classList.add("active");
+        
+        document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
 
-/* -----------------------------
-   HTML ESCAPE
------------------------------ */
+        if (tab === "leaderboard") {
+            loadLeaderboard();
+        }
+    });
+});
 
+// --- TON CONNECT ---
+window.addEventListener('DOMContentLoaded', () => {
+    try {
+        if (window.TON_CONNECT_UI) {
+            const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+                manifestUrl: window.location.origin + "/tonconnect-manifest.json",
+                buttonRootId: "ton-connect"
+            });
+            tonConnectUI.onStatusChange(wallet => {
+                const status = document.getElementById("wallet-status");
+                if (wallet) {
+                    status.innerText = "Connected: " + wallet.account.address.slice(0, 6) + "..." + wallet.account.address.slice(-4);
+                } else {
+                    status.innerText = "Wallet not connected.";
+                }
+            });
+        }
+    } catch (e) {
+        console.log("TonConnect init skipped");
+    }
+});
+
+// --- HTML ESCAPE ---
 function escapeHtml(value) {
-
     return String(value)
         .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+</script>
+
+</body>
+</html>
