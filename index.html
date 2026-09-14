@@ -381,38 +381,41 @@ function loadLeaderboard() {
     const container = document.getElementById("leaderboard");
     const currentUsername = document.getElementById("user-tag").innerText;
     
-    // 20 kişilik global oyuncu listesi oluşturuluyor
-    let mockLeaders = [
-        { name: "@Satoshi_N", balance: 4250000 },
-        { name: "@Pavel_Durov", balance: 3980000 },
-        { name: "@CryptoKing", balance: 3650000 },
-        { name: "@TonWhale", balance: 3200000 },
-        { name: "@MoonShot", balance: 2950000 },
-        { name: "@DiamondHands", balance: 2700000 },
-        { name: "@TelegramGod", balance: 2450000 },
-        { name: "@AlphaHunter", balance: 2100000 },
-        { name: "@BlockMaster", balance: 1850000 },
-        { name: "@TokenSniper", balance: 1600000 },
-        { name: "@Web3Ninja", balance: 1400000 },
-        { name: "@SolanaKiller", balance: 1200000 },
-        { name: "@NotCoinFan", balance: 950000 },
-        { name: "@HamsterBoss", balance: 800000 },
-        { name: "@BlumMaster", balance: 650000 },
-        { name: "@DOGE_Father", balance: 500000 },
-        { name: "@EtherKnight", balance: 380000 },
-        { name: "@NodeRunner", balance: 250000 },
-        { name: "@CryptoNoob", balance: 150000 },
-        { name: currentUsername, balance: state.balance }
+    // Kullanıcıyı her zaman 1 numaraya sabitlemek için kendi puanından düşük bot listesi
+    let botLeaders = [
+        { name: "@CryptoKing", balance: Math.max(1000, state.balance - 15000) },
+        { name: "@Pavel_Durov", balance: Math.max(900, state.balance - 32000) },
+        { name: "@Satoshi_N", balance: Math.max(800, state.balance - 50000) },
+        { name: "@TonWhale", balance: Math.max(700, state.balance - 68000) },
+        { name: "@MoonShot", balance: Math.max(600, state.balance - 85000) },
+        { name: "@DiamondHands", balance: Math.max(500, state.balance - 102000) },
+        { name: "@TelegramGod", balance: Math.max(450, state.balance - 120000) },
+        { name: "@AlphaHunter", balance: Math.max(400, state.balance - 145000) },
+        { name: "@BlockMaster", balance: Math.max(350, state.balance - 170000) },
+        { name: "@TokenSniper", balance: Math.max(300, state.balance - 195000) },
+        { name: "@Web3Ninja", balance: Math.max(250, state.balance - 220000) },
+        { name: "@SolanaKiller", balance: Math.max(200, state.balance - 250000) },
+        { name: "@NotCoinFan", balance: Math.max(150, state.balance - 280000) },
+        { name: "@HamsterBoss", balance: Math.max(120, state.balance - 310000) },
+        { name: "@BlumMaster", balance: Math.max(100, state.balance - 350000) },
+        { name: "@DOGE_Father", balance: Math.max(80, state.balance - 400000) },
+        { name: "@EtherKnight", balance: Math.max(60, state.balance - 450000) },
+        { name: "@NodeRunner", balance: Math.max(40, state.balance - 500000) },
+        { name: "@CryptoNoob", balance: Math.max(20, state.balance - 600000) }
     ].sort((a, b) => b.balance - a.balance);
 
+    // Kullanıcıyı en başa (1. sıraya) koyuyoruz
+    let fullList = [{ name: currentUsername, balance: state.balance }, ...botLeaders];
+
     container.innerHTML = "";
-    mockLeaders.slice(0, 20).forEach((user, index) => {
+    fullList.forEach((user, index) => {
         const row = document.createElement("div");
         row.className = "leaderboard-row";
-        if (user.name === currentUsername) {
-            row.style.background = "rgba(0,240,255,0.08)";
+        if (index === 0) {
+            row.style.background = "rgba(0,240,255,0.12)";
             row.style.borderRadius = "8px";
             row.style.padding = "6px 8px";
+            row.style.border = "1px solid rgba(0,240,255,0.3)";
         }
         row.innerHTML = `<span><b>${index + 1}.</b> ${escapeHtml(user.name)}</span><b>${Number(user.balance).toLocaleString()} TNR</b>`;
         container.appendChild(row);
