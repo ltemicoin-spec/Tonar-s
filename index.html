@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TONARIS — $TNR Mega Ecosystem</title>
+    <title>TONARIS — $TNR Global Empire</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
@@ -177,7 +177,7 @@
             width: 100%;
             height: 100%;
             border-radius: 6px;
-            background: linear-gradient(90deg, #0284c7, var(--accent-neon));
+            background: linear-gradient(90deg, #ef4444, #f59e0b);
             transition: width .1s ease;
         }
 
@@ -308,7 +308,7 @@
         </div>
 
         <div class="stats-row">
-            <span>⚡ Enerji / Sayaç</span>
+            <span>⚡ Enerji (Hızlı Tüketim / Yavaş Dolum)</span>
             <span><span id="energy">5000</span> / <span id="maxEnergy">5000</span></span>
         </div>
         <div class="energy-bar-bg">
@@ -318,10 +318,10 @@
 
     <section id="boost-section" class="section">
         <h2>🚀 Mega Mağaza & Yatırımlar</h2>
-        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Her kart 10 Level'e kadar yükseltilebilir (Max Level 10)!</p>
+        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Tüm varlıklar ve ülkeler 10 Level'e (MAX) kadar yükseltilebilir!</p>
         
         <div class="content-card">
-            <h3>⚡ Multitap (Tıklama Gücü & Kapasite)</h3>
+            <h3>⚡ Multitap (Tıklama Gücü & Enerji Kapasitesi)</h3>
             <div class="boost-grid">
                 <div class="boost-item">
                     <div class="boost-info">
@@ -334,7 +334,12 @@
         </div>
 
         <div class="content-card">
-            <h3>📈 Kripto Paralar & Varlıklar</h3>
+            <h3>🌍 Dünya Ülkeleri & Bölgeler</h3>
+            <div class="boost-grid" id="countryGrid"></div>
+        </div>
+
+        <div class="content-card">
+            <h3>📈 Kripto Paralar & Ekosistem</h3>
             <div class="boost-grid" id="cryptoGrid"></div>
         </div>
 
@@ -344,13 +349,8 @@
         </div>
 
         <div class="content-card">
-            <h3>🍎 Alışveriş & Meyveler</h3>
+            <h3>🛒 Günlük Alışveriş & Gıda</h3>
             <div class="boost-grid" id="marketGrid"></div>
-        </div>
-
-        <div class="content-card">
-            <h3>⚽ Kulüpler & Ülkeler</h3>
-            <div class="boost-grid" id="clubGrid"></div>
         </div>
     </section>
 
@@ -360,23 +360,16 @@
         
         <div class="content-card">
             <h3>📢 Telegram Kanalı</h3>
-            <p class="task-description">Kanalımızı ziyaret et ve ödülü kap (+1.000 TNR)</p>
-            <a href="https://t.me/tonaris_official" target="_blank" class="btn-action" onclick="markVisited('channel')">Kanala Git</a>
+            <p class="task-description">Resmi kanalımızı ziyaret et (+1.000 TNR)</p>
+            <a href="https://t.me/tonaris_channel" target="_blank" class="btn-action" onclick="markVisited('channel')">Kanala Git</a>
             <button class="btn-action task-button" id="btn-task-channel" data-task="join_channel" data-reward="1000" disabled>Ödülü Al (Claim)</button>
         </div>
 
         <div class="content-card">
-            <h3>🐦 X (Twitter) Takip & Tweet</h3>
-            <p class="task-description">X hesabımızı takip et ve gönderiyi beğen (+1.500 TNR)</p>
-            <a href="https://twitter.com/tonaris_token" target="_blank" class="btn-action" onclick="markVisited('twitter')">X Gönderisine Git</a>
+            <h3>🐦 X (Twitter) Hesabı</h3>
+            <p class="task-description">Resmi X hesabımızı takip et (+1.500 TNR)</p>
+            <a href="https://x.com/TONARIS_io" target="_blank" class="btn-action" onclick="markVisited('twitter')">X Hesabına Git</a>
             <button class="btn-action task-button" id="btn-task-twitter" data-task="follow_twitter" data-reward="1500" disabled>Ödülü Al (Claim)</button>
-        </div>
-
-        <div class="content-card">
-            <h3>💬 Topluluk Sohbet Grubu</h3>
-            <p class="task-description">Sohbetimize katıl, diğer oyuncularla tanış (+1.000 TNR)</p>
-            <a href="https://t.me/tonaris_chat" target="_blank" class="btn-action" onclick="markVisited('chat')">Sohbete Katıl</a>
-            <button class="btn-action task-button" id="btn-task-chat" data-task="join_chat" data-reward="1000" disabled>Ödülü Al (Claim)</button>
         </div>
     </section>
 
@@ -407,20 +400,37 @@
 const tg = window.Telegram?.WebApp;
 
 let state = {
-    balance: parseFloat(localStorage.getItem('tnr_balance_v12')) || 0,
-    energy: parseFloat(localStorage.getItem('tnr_energy_v12')) || 5000,
-    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v12')) || 5000,
-    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v12')) || 500,
-    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v12')) || 1,
-    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v12')) || 1000,
-    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v12')) || [],
-    visitedLinks: JSON.parse(localStorage.getItem('tnr_visits_v12')) || { channel: false, twitter: false, chat: false },
-    cards: JSON.parse(localStorage.getItem('tnr_cards_v12')) || {
+    balance: parseFloat(localStorage.getItem('tnr_balance_v13')) || 0,
+    energy: parseFloat(localStorage.getItem('tnr_energy_v13')) || 5000,
+    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v13')) || 5000,
+    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v13')) || 500,
+    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v13')) || 1,
+    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v13')) || 1000,
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v13')) || [],
+    visitedLinks: JSON.parse(localStorage.getItem('tnr_visits_v13')) || { channel: false, twitter: false },
+    cards: JSON.parse(localStorage.getItem('tnr_cards_v13')) || {
+        // Dünya Ülkeleri (Geniş Liste)
+        turkey: { level: 0, maxLevel: 10, cost: 500, profit: 50, category: 'country', name: "🇹🇷 Türkiye Cumhuriyeti" },
+        usa: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'country', name: "🇺🇸 United States" },
+        germany: { level: 0, maxLevel: 10, cost: 1200, profit: 130, category: 'country', name: "🇩🇪 Germany" },
+        uk: { level: 0, maxLevel: 10, cost: 1100, profit: 120, category: 'country', name: "🇬🇧 United Kingdom" },
+        france: { level: 0, maxLevel: 10, cost: 1000, profit: 110, category: 'country', name: "🇫🇷 France" },
+        japan: { level: 0, maxLevel: 10, cost: 1400, profit: 150, category: 'country', name: "🇯🇵 Japan" },
+        brazil: { level: 0, maxLevel: 10, cost: 900, profit: 95, category: 'country', name: "🇧🇷 Brazil" },
+        argentina: { level: 0, maxLevel: 10, cost: 800, profit: 85, category: 'country', name: "🇦🇷 Argentina" },
+        italy: { level: 0, maxLevel: 10, cost: 950, profit: 100, category: 'country', name: "🇮🇹 Italy" },
+        spain: { level: 0, maxLevel: 10, cost: 900, profit: 95, category: 'country', name: "🇪🇸 Spain" },
+        canada: { level: 0, maxLevel: 10, cost: 1150, profit: 125, category: 'country', name: "🇨🇦 Canada" },
+        australia: { level: 0, maxLevel: 10, cost: 1050, profit: 115, category: 'country', name: "🇦🇺 Australia" },
+        southkorea: { level: 0, maxLevel: 10, cost: 1300, profit: 140, category: 'country', name: "🇰🇷 South Korea" },
+        india: { level: 0, maxLevel: 10, cost: 1000, profit: 110, category: 'country', name: "🇮🇳 India" },
+        china: { level: 0, maxLevel: 10, cost: 1600, profit: 180, category: 'country', name: "🇨🇳 China" },
         // Kriptolar
-        bitcoin: { level: 0, maxLevel: 10, cost: 1200, profit: 120, category: 'crypto', name: "₿ Bitcoin (BTC)" },
-        ethereum: { level: 0, maxLevel: 10, cost: 900, profit: 90, category: 'crypto', name: "Ξ Ethereum (ETH)" },
-        solana: { level: 0, maxLevel: 10, cost: 700, profit: 70, category: 'crypto', name: "◎ Solana (SOL)" },
-        binance: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'crypto', name: "🟡 Binance Ecosystem" },
+        bitcoin: { level: 0, maxLevel: 10, cost: 2000, profit: 220, category: 'crypto', name: "₿ Bitcoin (BTC)" },
+        ethereum: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'crypto', name: "Ξ Ethereum (ETH)" },
+        solana: { level: 0, maxLevel: 10, cost: 1200, profit: 130, category: 'crypto', name: "◎ Solana (SOL)" },
+        binance: { level: 0, maxLevel: 10, cost: 1800, profit: 200, category: 'crypto', name: "🟡 Binance Ecosystem" },
+        ton: { level: 0, maxLevel: 10, cost: 1000, profit: 110, category: 'crypto', name: "💎 TON Network" },
         // Hayvanlar & Karakterler (Tom dahil)
         tom: { level: 0, maxLevel: 10, cost: 600, profit: 60, category: 'animal', name: "🐱 Tom (Virtual Pet)" },
         dog: { level: 0, maxLevel: 10, cost: 400, profit: 40, category: 'animal', name: "🐶 Loyal Dog" },
@@ -430,11 +440,7 @@ let state = {
         apple: { level: 0, maxLevel: 10, cost: 200, profit: 20, category: 'market', name: "🍎 Organic Apple" },
         tomato: { level: 0, maxLevel: 10, cost: 150, profit: 15, category: 'market', name: "🍅 Fresh Tomato" },
         pizza: { level: 0, maxLevel: 10, cost: 450, profit: 45, category: 'market', name: "🍕 Bitcoin Pizza" },
-        // Kulüpler & Ülkeler
-        brazil: { level: 0, maxLevel: 10, cost: 500, profit: 50, category: 'club', name: "🇧🇷 Brazil National Team" },
-        turkey: { level: 0, maxLevel: 10, cost: 800, profit: 80, category: 'club', name: "🇹🇷 Turkey National Team" },
-        realmadrid: { level: 0, maxLevel: 10, cost: 1500, profit: 150, category: 'club', name: "⚽ Real Madrid CF" },
-        barcelona: { level: 0, maxLevel: 10, cost: 2000, profit: 220, category: 'club', name: "⚽ FC Barcelona" }
+        banana: { level: 0, maxLevel: 10, cost: 180, profit: 18, category: 'market', name: "🍌 Tropical Banana" }
     }
 };
 
@@ -448,22 +454,22 @@ if (tg) {
 }
 
 function saveState() {
-    localStorage.setItem('tnr_balance_v12', state.balance);
-    localStorage.setItem('tnr_energy_v12', state.energy);
-    localStorage.setItem('tnr_maxenergy_v12', state.maxEnergy);
-    localStorage.setItem('tnr_profit_v12', state.profitPerHour);
-    localStorage.setItem('tnr_multitap_lvl_v12', state.multitapLevel);
-    localStorage.setItem('tnr_multitap_cost_v12', state.multitapCost);
-    localStorage.setItem('tnr_tasks_v12', JSON.stringify(state.completedTasks));
-    localStorage.setItem('tnr_visits_v12', JSON.stringify(state.visitedLinks));
-    localStorage.setItem('tnr_cards_v12', JSON.stringify(state.cards));
+    localStorage.setItem('tnr_balance_v13', state.balance);
+    localStorage.setItem('tnr_energy_v13', state.energy);
+    localStorage.setItem('tnr_maxenergy_v13', state.maxEnergy);
+    localStorage.setItem('tnr_profit_v13', state.profitPerHour);
+    localStorage.setItem('tnr_multitap_lvl_v13', state.multitapLevel);
+    localStorage.setItem('tnr_multitap_cost_v13', state.multitapCost);
+    localStorage.setItem('tnr_tasks_v13', JSON.stringify(state.completedTasks));
+    localStorage.setItem('tnr_visits_v13', JSON.stringify(state.visitedLinks));
+    localStorage.setItem('tnr_cards_v13', JSON.stringify(state.cards));
 }
 
 // Multitap Seviye Kriterleri (Max Level 10)
 function getLevelRules() {
     let lvl = state.multitapLevel;
-    let maxCap = 5000 + (lvl - 1) * 5000; // Her seviyede 5000 artar (Max 50.000)
-    let tapVal = lvl * 2; // Her seviyede tık başına güç artar
+    let maxCap = 5000 + (lvl - 1) * 2000; 
+    let tapVal = lvl * 5; // Tık başına güç yüksek, enerji hızlı tükenir
     return { max: maxCap, tapValue: tapVal };
 }
 
@@ -500,10 +506,10 @@ function updateUI() {
 }
 
 function renderAllCards() {
+    renderCategoryCards('countryGrid', 'country');
     renderCategoryCards('cryptoGrid', 'crypto');
     renderCategoryCards('animalGrid', 'animal');
     renderCategoryCards('marketGrid', 'market');
-    renderCategoryCards('clubGrid', 'club');
 }
 
 function renderCategoryCards(containerId, category) {
@@ -556,8 +562,8 @@ function buyCard(key) {
         state.balance -= card.cost;
         state.profitPerHour += card.profit;
         card.level += 1;
-        card.cost = Math.floor(card.cost * 1.7); 
-        card.profit = Math.floor(card.profit * 1.4); 
+        card.cost = Math.floor(card.cost * 1.65); 
+        card.profit = Math.floor(card.profit * 1.35); 
         
         if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
@@ -574,8 +580,7 @@ function markVisited(type) {
 function updateTaskButtons() {
     const tasks = [
         { id: 'channel', key: 'join_channel' },
-        { id: 'twitter', key: 'follow_twitter' },
-        { id: 'chat', key: 'join_chat' }
+        { id: 'twitter', key: 'follow_twitter' }
     ];
 
     tasks.forEach(t => {
@@ -599,11 +604,12 @@ document.addEventListener("DOMContentLoaded", () => {
     updateUI();
     saveState();
 
-    // Zamanlayıcı (Pasif gelir ve kontrollü enerji dolumu)
+    // Zamanlayıcı: Pasif gelir ve YAVAŞ ENERJİ DOLUMU (~12-15 dakikada sıfırdan fulle)
     setInterval(() => {
         let rules = getLevelRules();
         if (state.energy < rules.max) {
-            let rechargeRate = Math.max(3, Math.floor(rules.max / 250)); 
+            // Yavaş dolum oranı ayarlandı
+            let rechargeRate = 1; 
             state.energy = Math.min(rules.max, state.energy + rechargeRate);
         }
         state.balance += state.profitPerHour / 3600;
@@ -611,7 +617,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveState();
     }, 1000);
 
-    // Tıklama Olayı (Hızlı, akıcı, enerji tüketimli)
+    // Tıklama Olayı (Hızlı tükenen enerji mekaniği)
     const tapButton = document.getElementById("tap-button");
     if (tapButton) {
         tapButton.addEventListener("click", (e) => {
