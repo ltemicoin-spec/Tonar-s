@@ -141,7 +141,7 @@
             pointer-events: none;
         }
 
-        /* Uçan Puan Efekti (Floating Text) */
+        /* Uçan Puan Efekti */
         .floating-number {
             position: absolute;
             color: var(--accent-neon);
@@ -154,14 +154,8 @@
         }
 
         @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-90px) scale(1.3);
-            }
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-90px) scale(1.3); }
         }
 
         .stats-row {
@@ -395,8 +389,10 @@
 <script>
 const tg = window.Telegram?.WebApp;
 
+// Kayıtlı veri bozuksa veya 0 kalmışsa otomatik 45120'den başlat
+let savedBalance = parseInt(localStorage.getItem('tnr_balance'));
 let state = {
-    balance: parseInt(localStorage.getItem('tnr_balance')) || 45120,
+    balance: (isNaN(savedBalance) || savedBalance <= 0) ? 45120 : savedBalance,
     energy: parseInt(localStorage.getItem('tnr_energy')) || 1000,
     maxEnergy: 1000,
     profitPerHour: parseInt(localStorage.getItem('tnr_profit')) || 500,
@@ -528,70 +524,61 @@ function buyCard(key) {
     }
 }
 
-updateUI();
-
-setInterval(() => {
-    if (state.energy < state.maxEnergy) {
-        state.energy = Math.min(state.maxEnergy, state.energy + 5);
-    }
-    state.balance += state.profitPerHour / 3600;
+// Sayfa yüklendiğinde her şeyi başlat
+document.addEventListener("DOMContentLoaded", () => {
     updateUI();
-    saveState();
-}, 1000);
 
-// Tıklama Olayı ve Uçan Sayı Efekti (Floating Text)
-document.getElementById("tap-button").addEventListener("click", (e) => {
-    let power = getClickPower();
-    if (state.energy < power) return;
-    
-    if (tg && tg.HapticFeedback) {
-        tg.HapticFeedback.impactOccurred('medium');
-    }
+    // Pasif Gelir ve Enerji Dolumu (Her saniye)
+    setInterval(() => {
+        if (state.energy < state.maxEnergy) {
+            state.energy = Math.min(state.maxEnergy, state.energy + 5);
+        }
+        state.balance += state.profitPerHour / 3600;
+        updateUI();
+        saveState();
+    }, 1000);
 
-    state.balance += power;
-    state.energy -= power;
-    updateUI();
-    saveState();
-
-    // Dokunulan yere uçan puan ekleme
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX || (rect.left + rect.width / 2);
-    const y = e.clientY || (rect.top + rect.height / 2);
-
-    const floatingNum = document.createElement("div");
-    floatingNum.className = "floating-number";
-    floatingNum.innerText = `+${power}`;
-    floatingNum.style.left = `${x - 20}px`;
-    floatingNum.style.top = `${y - 40}px`;
-
-    document.getElementById("appContainer").appendChild(floatingNum);
-
-    setTimeout(() => {
-        floatingNum.remove();
-    }, 800);
-});
-
-// Görevler
-document.querySelectorAll(".task-button").forEach(button => {
-    const taskId = button.dataset.task;
-    if (state.completedTasks.includes(taskId)) {
-        button.innerText = "Claimed ✓";
-        button.disabled = true;
-    }
-
-    button.addEventListener("click", () => {
-        const link = button.dataset.link;
-        if (link) {
-            if (tg?.openTelegramLink && link.includes("t.me")) {
-                tg.openTelegramLink(link);
-            } else {
-                window.open(link, "_blank");
+    // Tıklama Olayı ve Uçan Sayı Efekti
+    const tapButton = document.getElementById("tap-button");
+    if (tapButton) {
+        tapButton.addEventListener("click", (e) => {
+            let power = getClickPower();
+            if (state.energy < power) return;
+            
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('medium');
             }
+
+            state.balance += power;
+            state.energy -= power;
+            updateUI();
+            saveState();
+
+            // Uçan puan efekti
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = e.clientX || (rect.left + rect.width / 2);
+            const y = e.clientY || (rect.top + rect.height / 2);
+
+            const floatingNum = document.createElement("div");
+            floatingNum.className = "floating-number";
+            floatingNum.innerText = `+${power}`;
+            floatingNum.style.left = `${x - 20}px`;
+            floatingNum.style.top = `${y - 40}px`;
+
+            document.getElementById("appContainer").appendChild(floatingNum);
+
+            setTimeout(() => {
+                floatingNum.remove();
+            }, 800);
+        });
+    }
+
+    // Görevler
+    document.querySelectorAll(".task-button").forEach(button => {
+        const taskId = button.dataset.task;
+        if (state.completedTasks.includes(taskId)) {
+            button.innerText = "Claimed ✓";
+            button.disabled = true;
         }
 
-        if (state.completedTasks.includes(taskId)) return;
-
-        const reward = parseInt(button.dataset.reward) || 10000;
-        state.balance += reward;
-        state.completedTasks.push(taskId);
-     
+        button.addEventListener("c
