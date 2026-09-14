@@ -59,6 +59,7 @@
             padding: 18px;
             padding-bottom: 100px;
             text-align: center;
+            position: relative;
         }
 
         .profile-header {
@@ -140,6 +141,29 @@
             pointer-events: none;
         }
 
+        /* Uçan Puan Efekti (Floating Text) */
+        .floating-number {
+            position: absolute;
+            color: var(--accent-neon);
+            font-weight: 900;
+            font-size: 26px;
+            text-shadow: 0 0 10px var(--accent-neon);
+            pointer-events: none;
+            animation: floatUp 0.8s ease-out forwards;
+            z-index: 999;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-90px) scale(1.3);
+            }
+        }
+
         .stats-row {
             display: flex;
             justify-content: space-between;
@@ -183,7 +207,6 @@
         .content-card h3 { margin: 0 0 4px 0; font-size: 15px; }
         .task-description { color: var(--text-muted); font-size: 12px; margin: 4px 0 10px 0; }
 
-        /* Boost ve Mağaza Stilleri */
         .boost-grid {
             display: flex;
             flex-direction: column;
@@ -268,7 +291,7 @@
 </head>
 <body>
 
-<div class="app-container">
+<div class="app-container" id="appContainer">
     <!-- HOME -->
     <section id="home-section" class="section active">
         <div class="profile-header">
@@ -300,12 +323,11 @@
         </div>
     </section>
 
-    <!-- BOOST / KARTLAR & TIKLAMA GÜCÜ -->
+    <!-- BOOST -->
     <section id="boost-section" class="section">
         <h2>🚀 Mağaza & Boostlar</h2>
         <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Tıklama gücünü artır ve pasif gelirini katla!</p>
         
-        <!-- Tıklama Gücü (Multitap) Yükseltmesi -->
         <div class="content-card">
             <h3>⚡ Tıklama Gücü (Multi-Tap)</h3>
             <div class="boost-grid">
@@ -319,12 +341,9 @@
             </div>
         </div>
 
-        <!-- Ülke ve Kulüp Kartları -->
         <div class="content-card">
             <h3>🌍 Ülke Bayrakları & Kulüpler</h3>
-            <div class="boost-grid" id="boostGrid">
-                <!-- JavaScript ile dinamik dolacak -->
-            </div>
+            <div class="boost-grid" id="boostGrid"></div>
         </div>
     </section>
 
@@ -428,7 +447,6 @@ function saveState() {
 }
 
 function getClickPower() {
-    // Level 1: +1, Level 2: +2, Level 3: +5, Level 4: +10, Level 5+: +50
     if (state.multitapLevel === 1) return 1;
     if (state.multitapLevel === 2) return 2;
     if (state.multitapLevel === 3) return 5;
@@ -443,7 +461,6 @@ function updateUI() {
     const percentage = (state.energy / state.maxEnergy) * 100;
     document.getElementById("energyFill").style.width = percentage + "%";
 
-    // Multitap UI Güncelleme
     let power = getClickPower();
     document.getElementById("multitapTitle").innerText = `Level ${state.multitapLevel} (+${power} / tık)`;
     document.getElementById("multitapCostText").innerText = `Maliyet: ${state.multitapCost.toLocaleString()} 💎`;
@@ -482,7 +499,7 @@ function buyMultitap() {
     if (state.balance >= state.multitapCost) {
         state.balance -= state.multitapCost;
         state.multitapLevel += 1;
-        state.multitapCost = Math.floor(state.multitapCost * 2.5); // Her levelde maliyet artar
+        state.multitapCost = Math.floor(state.multitapCost * 2.5);
 
         if (tg && tg.HapticFeedback) {
             tg.HapticFeedback.notificationOccurred('success');
@@ -513,7 +530,6 @@ function buyCard(key) {
 
 updateUI();
 
-// Saniyelik Pasif Gelir ve Enerji Dolumu
 setInterval(() => {
     if (state.energy < state.maxEnergy) {
         state.energy = Math.min(state.maxEnergy, state.energy + 5);
@@ -523,10 +539,10 @@ setInterval(() => {
     saveState();
 }, 1000);
 
-// Ekrana Tıklama Olayı (Multi-Tap Gücüne Göre Puan ve Enerji Azalması)
-document.getElementById("tap-button").addEventListener("click", () => {
+// Tıklama Olayı ve Uçan Sayı Efekti (Floating Text)
+document.getElementById("tap-button").addEventListener("click", (e) => {
     let power = getClickPower();
-    if (state.energy < power) return; // Enerji yetmiyorsa basamaz
+    if (state.energy < power) return;
     
     if (tg && tg.HapticFeedback) {
         tg.HapticFeedback.impactOccurred('medium');
@@ -536,6 +552,23 @@ document.getElementById("tap-button").addEventListener("click", () => {
     state.energy -= power;
     updateUI();
     saveState();
+
+    // Dokunulan yere uçan puan ekleme
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX || (rect.left + rect.width / 2);
+    const y = e.clientY || (rect.top + rect.height / 2);
+
+    const floatingNum = document.createElement("div");
+    floatingNum.className = "floating-number";
+    floatingNum.innerText = `+${power}`;
+    floatingNum.style.left = `${x - 20}px`;
+    floatingNum.style.top = `${y - 40}px`;
+
+    document.getElementById("appContainer").appendChild(floatingNum);
+
+    setTimeout(() => {
+        floatingNum.remove();
+    }, 800);
 });
 
 // Görevler
@@ -561,92 +594,4 @@ document.querySelectorAll(".task-button").forEach(button => {
         const reward = parseInt(button.dataset.reward) || 10000;
         state.balance += reward;
         state.completedTasks.push(taskId);
-        
-        button.innerText = "Claimed ✓";
-        button.disabled = true;
-
-        updateUI();
-        saveState();
-        tg?.showAlert?.(`Successfully claimed +${reward.toLocaleString()} TNR!`);
-    });
-});
-
-function loadLeaderboard() {
-    const container = document.getElementById("leaderboard");
-    const currentUsername = document.getElementById("user-tag").innerText;
-    
-    let botLeaders = [
-        { name: "@CryptoKing", balance: Math.max(1000, state.balance - 15000) },
-        { name: "@Pavel_Durov", balance: Math.max(900, state.balance - 32000) },
-        { name: "@Satoshi_N", balance: Math.max(800, state.balance - 50000) },
-        { name: "@TonWhale", balance: Math.max(700, state.balance - 68000) },
-        { name: "@MoonShot", balance: Math.max(600, state.balance - 85000) },
-        { name: "@DiamondHands", balance: Math.max(500, state.balance - 102000) }
-    ].sort((a, b) => b.balance - a.balance);
-
-    let fullList = [{ name: currentUsername, balance: state.balance }, ...botLeaders];
-
-    container.innerHTML = "";
-    fullList.forEach((user, index) => {
-        const row = document.createElement("div");
-        row.className = "leaderboard-row";
-        if (index === 0) {
-            row.style.background = "rgba(0,240,255,0.12)";
-            row.style.borderRadius = "8px";
-            row.style.padding = "6px 8px";
-            row.style.border = "1px solid rgba(0,240,255,0.3)";
-        }
-        row.innerHTML = `<span><b>${index + 1}.</b> ${escapeHtml(user.name)}</span><b>${Math.floor(user.balance).toLocaleString()} TNR</b>`;
-        container.appendChild(row);
-    });
-}
-
-// Sekme Geçişleri
-document.querySelectorAll(".nav-item").forEach(button => {
-    button.addEventListener("click", () => {
-        const tab = button.dataset.tab;
-        document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
-        document.getElementById(tab + "-section").classList.add("active");
-        
-        document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-
-        if (tab === "leaderboard") {
-            loadLeaderboard();
-        }
-    });
-});
-
-window.addEventListener('DOMContentLoaded', () => {
-    try {
-        if (window.TON_CONNECT_UI) {
-            const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-                manifestUrl: window.location.origin + "/tonconnect-manifest.json",
-                buttonRootId: "ton-connect"
-            });
-            tonConnectUI.onStatusChange(wallet => {
-                const status = document.getElementById("wallet-status");
-                if (wallet) {
-                    status.innerText = "Connected: " + wallet.account.address.slice(0, 6) + "..." + wallet.account.address.slice(-4);
-                } else {
-                    status.innerText = "Wallet not connected.";
-                }
-            });
-        }
-    } catch (e) {
-        console.log("TonConnect init skipped");
-    }
-});
-
-function escapeHtml(value) {
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-</script>
-
-</body>
-</html>
+     
