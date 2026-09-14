@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TONARIS — $TNR Global Empire & Lucky Draw</title>
+    <title>TONARIS — $TNR Global Empire & Listing Countdown</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
@@ -19,7 +19,6 @@
             --border-color: rgba(255, 255, 255, 0.12);
             --green: #10b981;
             --gold: #f59e0b;
-            --purple: #a855f7;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -240,63 +239,35 @@
             white-space: nowrap;
         }
 
-        /* ÇARKIFELEK STİLLERİ */
-        .wheel-container {
-            position: relative;
-            width: 260px;
-            height: 260px;
-            margin: 20px auto;
-            border-radius: 50%;
-            border: 6px solid var(--accent-neon);
-            box-shadow: 0 0 30px var(--accent-glow);
-            overflow: hidden;
-            background: #0b111e;
+        /* LİSTTELEME SAYACI (COUNTDOWN) STİLLERİ */
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 15px 0;
         }
 
-        .wheel {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            border-radius: 50%;
-            transition: transform 4s cubic-bezier(0.15, 0.9, 0.2, 1);
-        }
-
-        .wheel-slice {
-            position: absolute;
-            width: 50%;
-            height: 50%;
-            transform-origin: 100% 100%;
-            left: 0; top: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.1);
+        .countdown-box {
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid var(--accent-neon);
+            border-radius: 12px;
+            padding: 12px 4px;
             text-align: center;
-            padding-left: 25px;
         }
 
-        .wheel-center-btn {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70px; height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), #ef4444);
-            border: 3px solid #fff;
-            color: #fff;
+        .countdown-number {
+            font-size: 22px;
             font-weight: 900;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
-            z-index: 20;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: var(--accent-neon);
+            text-shadow: 0 0 10px var(--accent-glow);
         }
-        .wheel-center-btn:active { transform: translate(-50%, -50%) scale(0.92); }
+
+        .countdown-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
 
         .btn-action {
             width: 100%;
@@ -449,24 +420,31 @@
         </div>
     </section>
 
-    <section id="draw-section" class="section">
-        <h2>🎯 Lucky Draw & Prizes</h2>
-        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 10px;">Spin the wheel for 0.1 TON per spin! Real rewards sent to you.</p>
+    <section id="listing-section" class="section">
+        <h2>🚀 $TNR Listing Countdown</h2>
+        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Official token listing on major exchanges starts on October 10!</p>
 
-        <div class="wheel-container">
-            <div class="wheel" id="wheel">
-                <div class="wheel-slice" style="transform: rotate(0deg) skewY(-30deg); background: #1e293b;">📱 Phone</div>
-                <div class="wheel-slice" style="transform: rotate(60deg) skewY(-30deg); background: #334155;">⌚ Watch</div>
-                <div class="wheel-slice" style="transform: rotate(120deg) skewY(-30deg); background: #1e293b;">🎮 PlayStation</div>
-                <div class="wheel-slice" style="transform: rotate(180deg) skewY(-30deg); background: #334155;">💎 100K TNR</div>
-                <div class="wheel-slice" style="transform: rotate(240deg) skewY(-30deg); background: #1e293b;">👑 VIP Crown</div>
-                <div class="wheel-slice" style="transform: rotate(300deg) skewY(-30deg); background: #334155;">💰 300K TNR</div>
+        <div class="content-card" style="text-align: center;">
+            <h3>⏳ Time Left to Global Listing</h3>
+            <div class="countdown-grid">
+                <div class="countdown-box">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
             </div>
-            <button class="wheel-center-btn" onclick="spinWheel()">GO</button>
-        </div>
-
-        <div class="content-card" style="text-align: center; margin-top: 15px;">
-            <p id="spinResult" style="color: var(--accent-neon); font-weight: 700; font-size: 14px; margin: 0;">Cost per spin: 0.1 TON (Direct to Primary Wallet)</p>
+            <p style="color: var(--accent-neon); font-size: 13px; font-weight: 700; margin-top: 15px;">Target Date: October 10</p>
         </div>
     </section>
 
@@ -484,15 +462,10 @@
         </div>
     </section>
 
-    <section id="leaderboard-section" class="section">
-        <h2>🏆 Global Leaderboard</h2>
-        <div class="content-card" id="leaderboard"></div>
-    </section>
-
     <section id="wallet-section" class="section">
         <h2>👛 TON Wallet</h2>
         <div class="content-card">
-            <p style="color:var(--text-muted);font-size:13px; margin-bottom:15px;">Connect your TON wallet to participate in draws and buy VIP assets.</p>
+            <p style="color:var(--text-muted);font-size:13px; margin-bottom:15px;">Connect your TON wallet to participate in listings and buy VIP assets.</p>
             <div id="ton-connect"></div>
             <div class="status" id="wallet-status">Wallet not connected.</div>
         </div>
@@ -503,8 +476,7 @@
     <button class="nav-item active" data-tab="home"><span class="nav-icon">💎</span>Exchange</button>
     <button class="nav-item" data-tab="boost"><span class="nav-icon">🚀</span>Boost</button>
     <button class="nav-item" data-tab="vip"><span class="nav-icon">👑</span>VIP Store</button>
-    <button class="nav-item" data-tab="draw"><span class="nav-icon">🎯</span>Draw</button>
-    <button class="nav-item" data-tab="earn"><span class="nav-icon">📋</span>Earn</button>
+    <button class="nav-item" data-tab="listing"><span class="nav-icon">⏳</span>Listing</button>
     <button class="nav-item" data-tab="wallet"><span class="nav-icon">👛</span>Wallet</button>
 </div>
 
@@ -516,16 +488,16 @@ let tonConnectUI = null;
 const PRIMARY_WALLET_ADDRESS = "YOUR_TON_WALLET_ADDRESS_HERE";
 
 let state = {
-    balance: parseFloat(localStorage.getItem('tnr_balance_v15')) || 0,
-    energy: parseFloat(localStorage.getItem('tnr_energy_v15')) || 5000,
-    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v15')) || 5000,
-    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v15')) || 500,
-    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v15')) || 1,
-    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v15')) || 1000,
-    vipOwned: JSON.parse(localStorage.getItem('tnr_vip_v15')) || [],
-    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v15')) || [],
-    visitedLinks: JSON.parse(localStorage.getItem('tnr_visits_v15')) || { channel: false, twitter: false },
-    cards: JSON.parse(localStorage.getItem('tnr_cards_v15')) || {
+    balance: parseFloat(localStorage.getItem('tnr_balance_v16')) || 0,
+    energy: parseFloat(localStorage.getItem('tnr_energy_v16')) || 5000,
+    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v16')) || 5000,
+    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v16')) || 500,
+    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v16')) || 1,
+    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v16')) || 1000,
+    vipOwned: JSON.parse(localStorage.getItem('tnr_vip_v16')) || [],
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v16')) || [],
+    visitedLinks: JSON.parse(localStorage.getItem('tnr_visits_v16')) || { channel: false, twitter: false },
+    cards: JSON.parse(localStorage.getItem('tnr_cards_v16')) || {
         turkey: { level: 0, maxLevel: 10, cost: 500, profit: 50, category: 'country', name: "🇹🇷 Türkiye Republic" },
         usa: { level: 0, maxLevel: 10, cost: 1500, profit: 160, category: 'country', name: "🇺🇸 United States" },
         bitcoin: { level: 0, maxLevel: 10, cost: 2000, profit: 220, category: 'crypto', name: "₿ Bitcoin (BTC)" },
@@ -543,16 +515,16 @@ if (tg) {
 }
 
 function saveState() {
-    localStorage.setItem('tnr_balance_v15', state.balance);
-    localStorage.setItem('tnr_energy_v15', state.energy);
-    localStorage.setItem('tnr_maxenergy_v15', state.maxEnergy);
-    localStorage.setItem('tnr_profit_v15', state.profitPerHour);
-    localStorage.setItem('tnr_multitap_lvl_v15', state.multitapLevel);
-    localStorage.setItem('tnr_multitap_cost_v15', state.multitapCost);
-    localStorage.setItem('tnr_vip_v15', JSON.stringify(state.vipOwned));
-    localStorage.setItem('tnr_tasks_v15', JSON.stringify(state.completedTasks));
-    localStorage.setItem('tnr_visits_v15', JSON.stringify(state.visitedLinks));
-    localStorage.setItem('tnr_cards_v15', JSON.stringify(state.cards));
+    localStorage.setItem('tnr_balance_v16', state.balance);
+    localStorage.setItem('tnr_energy_v16', state.energy);
+    localStorage.setItem('tnr_maxenergy_v16', state.maxEnergy);
+    localStorage.setItem('tnr_profit_v16', state.profitPerHour);
+    localStorage.setItem('tnr_multitap_lvl_v16', state.multitapLevel);
+    localStorage.setItem('tnr_multitap_cost_v16', state.multitapCost);
+    localStorage.setItem('tnr_vip_v16', JSON.stringify(state.vipOwned));
+    localStorage.setItem('tnr_tasks_v16', JSON.stringify(state.completedTasks));
+    localStorage.setItem('tnr_visits_v16', JSON.stringify(state.visitedLinks));
+    localStorage.setItem('tnr_cards_v16', JSON.stringify(state.cards));
 }
 
 function getLevelRules() {
@@ -636,7 +608,6 @@ function buyCard(key) {
     }
 }
 
-// VIP Mağaza Satın Alımı (Gerçek TON ile Birincil Cüzdana)
 async function buyVipItem(itemName, amountNanoTon, bonusProfit) {
     if (!tonConnectUI || !tonConnectUI.connected) {
         alert("Please connect your TON wallet from the Wallet section first!");
@@ -668,61 +639,30 @@ async function buyVipItem(itemName, amountNanoTon, bonusProfit) {
     }
 }
 
-// ÇARKIFELEK / ÇEKİLİŞ FONKSİYONU (0.1 TON Ödeme ve Dönüş)
-let currentWheelRotation = 0;
-async function spinWheel() {
-    if (!tonConnectUI || !tonConnectUI.connected) {
-        alert("Please connect your TON wallet in the Wallet section to play the draw!");
+// 10 EKİM LİSTELEME GERİ SAYIM MOTORU
+function updateCountdown() {
+    // 10 Ekim (Örn: 10 Ekim 2026 saat 15:00:00)
+    const listingDate = new Date("October 10, 2026 15:00:00").getTime();
+    const now = new Date().getTime();
+    const distance = listingDate - now;
+
+    if (distance < 0) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
         return;
     }
 
-    // 0.1 TON = 100000000 nanoTON
-    const transaction = {
-        validUntil: Math.floor(Date.now() / 1000) + 360,
-        messages: [
-            {
-                address: PRIMARY_WALLET_ADDRESS,
-                amount: "100000000" // 0.1 TON -> Doğrudan senin cüzdana akar
-            }
-        ]
-    };
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    try {
-        document.getElementById("spinResult").innerText = "Confirming 0.1 TON draw payment...";
-        await tonConnectUI.sendTransaction(transaction);
-
-        document.getElementById("spinResult").innerText = "Spinning the wheel...";
-        
-        // Rastgele dönme açısı hesaplama (En az 5 tam tur + rastgele dilim)
-        const randomDegree = Math.floor(Math.random() * 360) + 1800;
-        currentWheelRotation += randomDegree;
-        
-        const wheel = document.getElementById("wheel");
-        wheel.style.transform = `rotate(${currentWheelRotation}deg)`;
-
-        if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
-
-        setTimeout(() => {
-            // Çark sonucuna göre ödül dağılımı
-            const prizes = ["Smartphone", "Smart Watch", "PlayStation 5", "100,000 TNR Balance", "VIP Crown", "300,000 TNR Balance"];
-            const normalizedDegree = (currentWheelRotation % 360);
-            const winningIndex = Math.floor((360 - (normalizedDegree % 360)) / 60) % 6;
-            const wonPrize = prizes[winningIndex];
-
-            if (wonPrize.includes("TNR")) {
-                let rewardAmount = wonPrize.includes("300") ? 300000 : 100000;
-                state.balance += rewardAmount;
-            }
-
-            document.getElementById("spinResult").innerText = `🎉 Congratulations! You won: ${wonPrize}`;
-            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            saveState();
-            updateUI();
-        }, 4000);
-
-    } catch (e) {
-        document.getElementById("spinResult").innerText = "Draw payment cancelled or failed.";
-    }
+    document.getElementById("days").innerText = String(days).padStart(2, '0');
+    document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+    document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+    document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
 }
 
 function markVisited(type) {
@@ -756,6 +696,8 @@ function updateTaskButtons() {
 document.addEventListener("DOMContentLoaded", () => {
     updateUI();
     saveState();
+    updateCountdown();
+    setInterval(updateCountdown, 1000); // Saniye saniye güncelle
 
     try {
         if (window.TON_CONNECT_UI) {
@@ -817,8 +759,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
             document.querySelectorAll(".nav-item").forEach(btn => btn.classList.remove("active"));
             button.classList.add("active");
-
-            if (tab === "leaderboard") loadLeaderboard();
         });
     });
 
@@ -835,26 +775,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
-function loadLeaderboard() {
-    const container = document.getElementById("leaderboard");
-    if (!container) return;
-    const currentUsername = document.getElementById("user-tag")?.innerText || "Player";
-    
-    let botLeaders = [
-        { name: "@CryptoWhale", balance: state.balance + 18500 },
-        { name: "@PavelDurov", balance: state.balance + 42000 }
-    ].sort((a, b) => b.balance - a.balance);
-
-    let fullList = [{ name: currentUsername, balance: state.balance }, ...botLeaders];
-    container.innerHTML = "";
-    fullList.forEach((user, index) => {
-        const row = document.createElement("div");
-        row.className = "leaderboard-row";
-        row.innerHTML = `<span><b>${index + 1}.</b> ${user.name}</span><b>${Math.floor(user.balance).toLocaleString()} TNR</b>`;
-        container.appendChild(row);
-    });
-}
 </script>
 
 </body>
