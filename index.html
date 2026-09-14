@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TONARIS — $TNR</title>
 
-    <!-- Telegram Mini App -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- TON Connect -->
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
     <style>
@@ -21,13 +18,9 @@
             --text-muted: #8b9bb4;
             --border-color: rgba(255, 255, 255, 0.1);
             --green: #10b981;
-            --yellow: #f59e0b;
         }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             margin: 0;
@@ -181,7 +174,7 @@
             height: 100%;
             border-radius: 6px;
             background: linear-gradient(90deg, #0284c7, var(--accent-neon));
-            transition: width .2s ease;
+            transition: width .1s ease;
         }
 
         .section { display: none; }
@@ -200,11 +193,7 @@
         .content-card h3 { margin: 0 0 4px 0; font-size: 15px; }
         .task-description { color: var(--text-muted); font-size: 12px; margin: 4px 0 10px 0; }
 
-        .boost-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .boost-grid { display: flex; flex-direction: column; gap: 10px; }
 
         .boost-item {
             display: flex;
@@ -230,7 +219,6 @@
             font-weight: 700;
             font-size: 12px;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
         .btn-buy:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -244,7 +232,6 @@
             font-weight: 800;
             cursor: pointer;
         }
-        .btn-action:disabled { opacity: .6; cursor: not-allowed; }
 
         .leaderboard-row {
             display: flex;
@@ -296,7 +283,7 @@
         </div>
 
         <div class="score-box">
-            <div class="score-value" id="score">0</div>
+            <div class="score-value" id="score">5000</div>
             <div class="score-label">$TNR TOKEN BALANCE</div>
         </div>
 
@@ -308,8 +295,8 @@
         </div>
 
         <div class="stats-row">
-            <span>⚡ Energy</span>
-            <span><span id="energy">1000</span> / 1000</span>
+            <span>⚡ Enerji / Sayaç</span>
+            <span><span id="energy">5000</span> / <span id="maxEnergy">5000</span></span>
         </div>
         <div class="energy-bar-bg">
             <div class="energy-bar-fill" id="energyFill" style="width: 100%;"></div>
@@ -318,16 +305,16 @@
 
     <!-- BOOST -->
     <section id="boost-section" class="section">
-        <h2>🚀 Mağaza & Boostlar</h2>
-        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Tıklama gücünü artır ve pasif gelirini katla!</p>
+        <h2>🚀 Mağaza & Seviyeler</h2>
+        <p style="color:var(--text-muted);font-size:12px; margin-bottom: 14px;">Seviye atladıkça sayaç kapasiten ve tıklama gücün artar!</p>
         
         <div class="content-card">
-            <h3>⚡ Tıklama Gücü (Multi-Tap)</h3>
+            <h3>⚡ Seviye Yükselt</h3>
             <div class="boost-grid">
                 <div class="boost-item">
                     <div class="boost-info">
-                        <div class="boost-title" id="multitapTitle">Level 1 (+1 / tık)</div>
-                        <div class="boost-lvl" id="multitapCostText">Maliyet: 100 💎</div>
+                        <div class="boost-title" id="multitapTitle">Level 1 (Max: 5.000 / Tık: 1)</div>
+                        <div class="boost-lvl" id="multitapCostText">Maliyet: 1.000 💎</div>
                     </div>
                     <button class="btn-buy" id="multitapBtn" onclick="buyMultitap()">Yükselt</button>
                 </div>
@@ -335,7 +322,7 @@
         </div>
 
         <div class="content-card">
-            <h3>🌍 Ülke Bayrakları & Kulüpler</h3>
+            <h3>🌍 Kulüpler & Ülkeler</h3>
             <div class="boost-grid" id="boostGrid"></div>
         </div>
     </section>
@@ -344,31 +331,22 @@
     <section id="earn-section" class="section">
         <h2>Earn More TNR</h2>
         <p style="color:var(--text-muted);font-size:13px;">Complete tasks and earn TNR.</p>
-
         <div class="content-card">
             <h3>📢 Join TONARIS Channel</h3>
             <p class="task-description">Reward: +1,000 TNR</p>
             <button class="btn-action task-button" data-task="join_channel" data-reward="1000" data-link="https://t.me/boost/tonaris_channel">Claim</button>
-        </div>
-
-        <div class="content-card">
-            <h3>🐦 Follow TONARIS on X</h3>
-            <p class="task-description">Reward: +1,000 TNR</p>
-            <button class="btn-action task-button" data-task="follow_x" data-reward="1000" data-link="https://x.com/TONARIS_io">Claim</button>
         </div>
     </section>
 
     <!-- LEADERBOARD -->
     <section id="leaderboard-section" class="section">
         <h2>🏆 Global Leaderboard</h2>
-        <p style="color:var(--text-muted);font-size:13px;">Top 20 TONARIS miners worldwide.</p>
         <div class="content-card" id="leaderboard"></div>
     </section>
 
     <!-- WALLET -->
     <section id="wallet-section" class="section">
         <h2>👛 TON Wallet</h2>
-        <p style="color:var(--text-muted);font-size:13px;">Connect your TON wallet.</p>
         <div class="content-card">
             <div id="ton-connect"></div>
             <div class="status" id="wallet-status">Wallet not connected.</div>
@@ -376,7 +354,6 @@
     </section>
 </div>
 
-<!-- NAVIGATION -->
 <div class="nav-bar">
     <button class="nav-item active" data-tab="home"><span class="nav-icon">💎</span>Exchange</button>
     <button class="nav-item" data-tab="boost"><span class="nav-icon">🚀</span>Boost</button>
@@ -388,39 +365,26 @@
 <script>
 const tg = window.Telegram?.WebApp;
 
-// Hafıza versiyonunu güncelledik (v6) ki eski şişmiş bakiye verilerini temizlesin
-let rawBalance = parseInt(localStorage.getItem('tnr_balance_v6'));
-let initialBalance = (isNaN(rawBalance) || rawBalance <= 0) ? 100 : rawBalance;
-
+// Temiz başlangıç için v7 sürüm etiketini kullanıyoruz
 let state = {
-    balance: initialBalance,
-    energy: parseInt(localStorage.getItem('tnr_energy_v6')) || 1000,
-    maxEnergy: 1000,
-    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v6')) || 500,
-    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v6')) || 1,
-    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v6')) || 100,
-    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v6')) || [],
-    cards: JSON.parse(localStorage.getItem('tnr_cards_v6')) || {
+    balance: parseInt(localStorage.getItem('tnr_balance_v7')) || 5000,
+    energy: parseInt(localStorage.getItem('tnr_energy_v7')) || 5000,
+    maxEnergy: parseInt(localStorage.getItem('tnr_maxenergy_v7')) || 5000,
+    profitPerHour: parseInt(localStorage.getItem('tnr_profit_v7')) || 500,
+    multitapLevel: parseInt(localStorage.getItem('tnr_multitap_lvl_v7')) || 1,
+    multitapCost: parseInt(localStorage.getItem('tnr_multitap_cost_v7')) || 1000,
+    completedTasks: JSON.parse(localStorage.getItem('tnr_tasks_v7')) || [],
+    cards: JSON.parse(localStorage.getItem('tnr_cards_v7')) || {
         brazil: { level: 0, cost: 500, profit: 50 },
         turkey: { level: 0, cost: 800, profit: 80 },
-        realmadrid: { level: 0, cost: 1500, profit: 150 },
-        barcelona: { level: 0, cost: 1400, profit: 140 },
-        argentina: { level: 0, cost: 900, profit: 90 },
-        germany: { level: 0, cost: 1200, profit: 120 },
-        galatasaray: { level: 0, cost: 1000, profit: 100 },
-        fenerbahce: { level: 0, cost: 1000, profit: 100 }
+        realmadrid: { level: 0, cost: 1500, profit: 150 }
     }
 };
 
 const cardDataMeta = {
     brazil: { name: "🇧🇷 Brazil Flag" },
     turkey: { name: "🇹🇷 Turkey Flag" },
-    argentina: { name: "🇦🇷 Argentina Flag" },
-    germany: { name: "🇩🇪 Germany Flag" },
-    realmadrid: { name: "⚽ Real Madrid" },
-    barcelona: { name: "⚽ FC Barcelona" },
-    galatasaray: { name: "🦁 Galatasaray" },
-    fenerbahce: { name: "🟡 Fenerbahçe" }
+    realmadrid: { name: "⚽ Real Madrid" }
 };
 
 if (tg) {
@@ -428,38 +392,49 @@ if (tg) {
     tg.expand();
     const user = tg.initDataUnsafe?.user;
     if (user) {
-        const username = user.username ? "@" + user.username : (user.first_name || "Player");
-        document.getElementById("user-tag").innerText = username;
+        document.getElementById("user-tag").innerText = user.username ? "@" + user.username : (user.first_name || "Player");
     }
 }
 
 function saveState() {
-    localStorage.setItem('tnr_balance_v6', state.balance);
-    localStorage.setItem('tnr_energy_v6', state.energy);
-    localStorage.setItem('tnr_profit_v6', state.profitPerHour);
-    localStorage.setItem('tnr_multitap_lvl_v6', state.multitapLevel);
-    localStorage.setItem('tnr_multitap_cost_v6', state.multitapCost);
-    localStorage.setItem('tnr_tasks_v6', JSON.stringify(state.completedTasks));
-    localStorage.setItem('tnr_cards_v6', JSON.stringify(state.cards));
+    localStorage.setItem('tnr_balance_v7', state.balance);
+    localStorage.setItem('tnr_energy_v7', state.energy);
+    localStorage.setItem('tnr_maxenergy_v7', state.maxEnergy);
+    localStorage.setItem('tnr_profit_v7', state.profitPerHour);
+    localStorage.setItem('tnr_multitap_lvl_v7', state.multitapLevel);
+    localStorage.setItem('tnr_multitap_cost_v7', state.multitapCost);
+    localStorage.setItem('tnr_tasks_v7', JSON.stringify(state.completedTasks));
+    localStorage.setItem('tnr_cards_v7', JSON.stringify(state.cards));
 }
 
-// Her level atlandığında tıklama gücü tam olarak 1'er artar (Level 1 = 1, Level 2 = 2, Level 3 = 3...)
-function getClickPower() {
-    return state.multitapLevel;
+// Seviyelere göre max sayaç ve tıklama gücü kuralları
+function getLevelRules() {
+    // Level 1: Max 5.000, Tık Başı 1 düşüş / 1 kazanç
+    // Level 2: Max 10.000, Tık Başı 10 düşüş / 10 kazanç
+    // Level 3: Max 30.000, Tık Başı 20 düşüş / 20 kazanç
+    // Level 4+: Max 40.000+, Tık Başı 30 düşüş / 30 kazanç
+    if (state.multitapLevel === 1) return { max: 5000, tapValue: 1 };
+    if (state.multitapLevel === 2) return { max: 10000, tapValue: 10 };
+    if (state.multitapLevel === 3) return { max: 30000, tapValue: 20 };
+    return { max: 40000, tapValue: 30 };
 }
 
 function updateUI() {
+    let rules = getLevelRules();
+    state.maxEnergy = rules.max;
+    if (state.energy > state.maxEnergy) state.energy = state.maxEnergy;
+
     document.getElementById("score").innerText = Number(Math.floor(state.balance)).toLocaleString();
     document.getElementById("energy").innerText = Math.floor(state.energy);
+    document.getElementById("maxEnergy").innerText = state.maxEnergy.toLocaleString();
     document.getElementById("profitBadge").innerText = `💎 +${state.profitPerHour.toLocaleString()}/h`;
+    
     const percentage = (state.energy / state.maxEnergy) * 100;
     document.getElementById("energyFill").style.width = percentage + "%";
 
-    let power = getClickPower();
-    document.getElementById("multitapTitle").innerText = `Level ${state.multitapLevel} (+${power} / tık)`;
+    document.getElementById("multitapTitle").innerText = `Level ${state.multitapLevel} (Max: ${state.maxEnergy.toLocaleString()} / Tık: ${rules.tapValue})`;
     document.getElementById("multitapCostText").innerText = `Maliyet: ${state.multitapCost.toLocaleString()} 💎`;
     const multitapBtn = document.getElementById("multitapBtn");
-    multitapBtn.innerText = `${state.multitapCost.toLocaleString()} 💎`;
     multitapBtn.disabled = state.balance < state.multitapCost;
 
     renderCards();
@@ -494,12 +469,13 @@ function buyMultitap() {
     if (state.balance >= state.multitapCost) {
         state.balance -= state.multitapCost;
         state.multitapLevel += 1;
-        state.multitapCost = Math.floor(state.multitapCost * 1.8);
+        state.multitapCost = Math.floor(state.multitapCost * 2);
 
-        if (tg && tg.HapticFeedback) {
-            tg.HapticFeedback.notificationOccurred('success');
-        }
+        let rules = getLevelRules();
+        state.maxEnergy = rules.max;
+        state.energy = state.maxEnergy; // Level atlayınca sayaç tam dolur
 
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
         updateUI();
     }
@@ -514,41 +490,46 @@ function buyCard(key) {
         card.cost = Math.floor(card.cost * 1.5); 
         card.profit = Math.floor(card.profit * 1.3); 
         
-        if (tg && tg.HapticFeedback) {
-            tg.HapticFeedback.notificationOccurred('success');
-        }
-
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         saveState();
         updateUI();
     }
 }
 
-// Sayfa yüklendiğinde tetiklenen ana mekanizma
 document.addEventListener("DOMContentLoaded", () => {
     updateUI();
     saveState();
 
-    // Pasif Gelir ve Enerji Dolumu (Her saniye)
+    // Enerji bittikçe yavaş yavaş dakika/saniye bazlı dolum (Pasif yenilenme)
     setInterval(() => {
-        if (state.energy < state.maxEnergy) {
-            state.energy = Math.min(state.maxEnergy, state.energy + 5);
+        let rules = getLevelRules();
+        if (state.energy < rules.max) {
+            // Yavaş yavaş artış (saniye başına max enerjinin %1'i veya sabit ufak miktar)
+            let rechargeRate = Math.max(10, Math.floor(rules.max / 100)); 
+            state.energy = Math.min(rules.max, state.energy + rechargeRate);
         }
         state.balance += state.profitPerHour / 3600;
         updateUI();
         saveState();
     }, 1000);
 
-    // Tıklama Olayı ve Uçan Sayı Efekti
+    // Tıklama Olayı (Enerjiden düşer, bakiyeye ekler)
     const tapButton = document.getElementById("tap-button");
     if (tapButton) {
         tapButton.addEventListener("click", (e) => {
-            let power = getClickPower();
+            let rules = getLevelRules();
             
-            if (tg && tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
+            // Eğer enerji/sayaç bittiyse tıklama engellenir
+            if (state.energy < rules.tapValue) {
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                return;
             }
 
-            state.balance += power;
+            state.energy -= rules.tapValue;
+            state.balance += rules.tapValue;
+            
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+
             updateUI();
             saveState();
 
@@ -559,25 +540,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const floatingNum = document.createElement("div");
             floatingNum.className = "floating-number";
-            floatingNum.innerText = `+${power}`;
+            floatingNum.innerText = `+${rules.tapValue}`;
             floatingNum.style.left = `${x - 20}px`;
             floatingNum.style.top = `${y - 40}px`;
 
             const container = document.getElementById("appContainer");
-            if (container) {
-                container.appendChild(floatingNum);
-            }
+            if (container) container.appendChild(floatingNum);
 
-            setTimeout(() => {
-                floatingNum.remove();
-            }, 800);
+            setTimeout(() => floatingNum.remove(), 800);
         });
     }
 
-    // Görevler
-    document.querySelectorAll(".task-button").forEach(button => {
-        const taskId = button.dataset.task;
-        if (state.completedTasks.includes(taskId)) {
-            button.innerText = "Claimed ✓";
-            button.disabled = true;
-      
+    // Sekme Geçişleri
+    document.querySelectorAll(".nav-item").forEach(button => {
+        button.addEventListener("click", () => {
+            const tab = button.dataset.tab;
+            document.querySelectorAll(".section").forEach(section => section.classList.remove("active"));
+            const targetSection = document.getElementById(tab + "-section");
+            if (targetSection) targetSection.classList.add("active");
+            
+            do
